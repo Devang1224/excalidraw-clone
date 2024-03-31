@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 import Canvas from "./components/Canvas";
-import { useEffect, useRef } from "react";
-import { handleOnMouseDown, initializeFabric, startDrawingLine } from "@/lib/canvas";
+import {useEffect, useRef } from "react";
+import { handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, initializeFabric } from "@/lib/canvas";
 import {
   useMutation,
   useMyPresence,
@@ -12,13 +12,17 @@ import {
   useStorage,
 } from "@/liveblocks.config";
 import LiveCursors from "./components/cursor/LiveCursors";
+import { LineObject } from "@/types/types";
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
   const isDrawingMode = useRef(false);
-  const selectedShape = useRef(null);
-  const lineObject = useRef(null)
+  const selectedMode = useRef(null);
+  const lineObject = useRef({
+    line:null,
+    drawingLine:false,
+  });
 
   const canvasObjects = useStorage((root) => root.canvasObjects);
 
@@ -45,25 +49,38 @@ export default function Home() {
         options,
         fabricRef,
         isDrawingMode,
-        selectedShape,
+        selectedMode,
         lineObject,
       });
     });
 
    canvas.on("mouse:move",(options)=>{
-      startDrawingLine({
+      handleOnMouseMove({
         lineObject,
         isDrawingMode,
-        selectedShape,
+        selectedMode,
         options,
         canvas,
       })
    })
+   
+    canvas.on("mouse:up",(options)=>{
+       handleOnMouseUp({
+        lineObject,
+        isDrawingMode,
+        selectedMode,
+        options,
+        canvas,
+       })
+    })
+canvas.selection = false;  // to avoid the selection background
 
+
+console.log("rendering");
   }, []);
   return (
     <main className="h-screen ">
-      <Navbar isDrawingMode={isDrawingMode} selectedShape={selectedShape}/>
+      <Navbar isDrawingMode={isDrawingMode} selectedMode={selectedMode}/>
       <Canvas canvasRef={canvasRef} />
     </main>
   );

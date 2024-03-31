@@ -4,10 +4,10 @@ import { navButtons } from '@/constants/constants'
 
 interface Props{
   isDrawingMode: React.MutableRefObject<boolean>,
-  selectedShape: React.MutableRefObject<string | null>,
+  selectedMode: React.MutableRefObject<string | null>,
 }
 
-const Navbar = ({isDrawingMode,selectedShape}:Props) => {
+const Navbar = ({isDrawingMode,selectedMode}:Props) => {
   return (
 
       <div className='p-2 z-10 flex gap-2 rounded-lg bg-white border shadow-primary absolute left-[50%] top-2 translate-x-[-50%]'>
@@ -17,7 +17,7 @@ const Navbar = ({isDrawingMode,selectedShape}:Props) => {
             key={index}
             item={item} 
             isDrawingMode={isDrawingMode} 
-            selectedShape={selectedShape}/>
+            selectedMode={selectedMode}/>
         ))
       }
        </div>

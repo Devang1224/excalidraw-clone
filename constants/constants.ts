@@ -22,7 +22,7 @@ export const navButtons = [
         name:"line",
         icon:'/assets/icons/line.svg'
     }, {
-        name:"pencil",
+        name:"freeDraw",
         icon:'/assets/icons/pencil.svg'
     }, {
         name:"text",

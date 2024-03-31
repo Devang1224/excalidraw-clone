@@ -7,26 +7,20 @@ interface Props{
     icon:string,
     name:string
   },
-  selectedShape: React.MutableRefObject<string | null>,
+  selectedMode: React.MutableRefObject<string | null>,
 
 }
 
 const NavButtons = ({
    item,
    isDrawingMode,
-   selectedShape,
+   selectedMode,
   }:Props ) => {
 
 
   const handleDrawingMode = () =>{
-
-      if(item.name=="pencil"){
-        isDrawingMode.current = !isDrawingMode?.current;
-        selectedShape.current = null;
-      }else{
-         isDrawingMode.current=false;
-         selectedShape.current = item.name;
-      }  
+        isDrawingMode.current = true;
+         selectedMode.current = item.name;
   }
 
   return (
