@@ -7,3 +7,7 @@ export interface LineObject {
   line: fabric.Line | null,
   drawingLine: boolean;
 }
+
+export type SelectedMode = "hand" | "cursor" | "rect" | "circle" | 
+                           "triangle" | "arrowright" | "line" | "freedraw" |
+                            "text" | "image" | "eraser";

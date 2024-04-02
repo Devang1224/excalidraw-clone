@@ -7,11 +7,11 @@ export const navButtons = [
         name:"cursor",
         icon:'/assets/icons/cursor.svg'
     }, {
-        name:"square",
+        name:"rect",
         icon:'/assets/icons/square.svg'
     }, {
-        name:"diamond",
-        icon:'/assets/icons/diamond.svg'
+        name:"triangle",
+        icon:'/assets/icons/triangle.svg'
     }, {
         name:"circle",
         icon:'/assets/icons/circle.svg'

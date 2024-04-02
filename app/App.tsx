@@ -12,13 +12,13 @@ import {
   useStorage,
 } from "@/liveblocks.config";
 import LiveCursors from "./components/cursor/LiveCursors";
-import { LineObject } from "@/types/types";
+import { LineObject, SelectedMode } from "@/types/types";
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
   const isDrawingMode = useRef(false);
-  const selectedMode = useRef(null);
+  const selectedMode = useRef<SelectedMode | null>(null);
   const lineObject = useRef({
     line:null,
     drawingLine:false,
@@ -80,7 +80,7 @@ console.log("rendering");
   }, []);
   return (
     <main className="h-screen ">
-      <Navbar isDrawingMode={isDrawingMode} selectedMode={selectedMode}/>
+      <Navbar isDrawingMode={isDrawingMode} selectedMode={selectedMode} fabricRef={fabricRef}/>
       <Canvas canvasRef={canvasRef} />
     </main>
   );

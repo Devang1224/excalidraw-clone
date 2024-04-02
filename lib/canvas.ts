@@ -1,5 +1,5 @@
 import {fabric} from "fabric"
-import { createSpecificShape } from "./shapes";
+import { createLine, createSpecificShape } from "./shapes";
 import { CustomFabricObject, LineObject } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -31,7 +31,6 @@ type onMouseDownParameters = {
     isDrawingMode:React.MutableRefObject<boolean>,
     selectedMode:React.MutableRefObject<string | null>,
     lineObject:React.MutableRefObject<LineObject>
-
 }
 export function handleOnMouseDown({
     canvas, 
@@ -43,6 +42,13 @@ export function handleOnMouseDown({
 }:onMouseDownParameters){ 
 
     const pointer = canvas.getPointer(options.e);  // to get pointer coordinates
+    const target = canvas.findTarget(options.e,false); 
+
+
+if(selectedMode.current == "cursor"){
+    canvas.isDrawingMode = false;
+    return;
+}
 
     if(selectedMode.current == "freeDraw"){
         canvas.isDrawingMode = true;
@@ -50,18 +56,22 @@ export function handleOnMouseDown({
         return;
     }
 console.log(selectedMode.current);
+console.log(target?.type);
+console.log(canvas);
+// if an object is selected no need to make the shape on mousedown
+if(target) 
+{
+    canvas.setActiveObject(target);
+    target.setCoords();
+    return;
+}
+
+
 // when drawing a line
     if(selectedMode.current=="line"){
         canvas.isDrawingMode = false;
        
-           lineObject.current.line = new fabric.Line(
-              [pointer.x, pointer.y, pointer.x, pointer.y],
-              {
-                stroke: "#000000",
-                strokeWidth: 2,
-                objectId: uuidv4(),
-              } as CustomFabricObject<fabric.Line>
-            );
+           lineObject.current.line = createLine(pointer);
             if(lineObject.current.line){
                 canvas.add(lineObject.current.line);
             }
@@ -70,14 +80,14 @@ console.log(selectedMode.current);
     else {
      canvas.isDrawingMode = false;
      
-     const rect = createSpecificShape(selectedMode,pointer);
-     console.log(rect);
-      if(rect){
-        canvas.add(rect);
+     const shape = createSpecificShape(selectedMode,pointer);
+    //  if(selectedMode.current=="text")selectedMode.current = null;
+
+      if(shape){
+        canvas.add(shape);
       }
     }
   
-
 }
 
 type handleOnMouseMoveTypes ={
@@ -129,7 +139,7 @@ canvas
 
 
 if(selectedMode.current=="line" && lineObject.current.drawingLine){
-  lineObject.current.drawingLine = false;    
+  lineObject.current.drawingLine = false;     // canceling the line drawing state once mouse is up
    return;
 }
  
