@@ -9,5 +9,5 @@ export interface LineObject {
 }
 
 export type SelectedMode = "hand" | "cursor" | "rect" | "circle" | 
-                           "triangle" | "arrowright" | "line" | "freedraw" |
+                           "triangle" | "arrowLine" | "line" | "freedraw" |
                             "text" | "image" | "eraser";

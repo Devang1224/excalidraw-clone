@@ -15,26 +15,26 @@ import LiveCursors from "./components/cursor/LiveCursors";
 import { LineObject, SelectedMode } from "@/types/types";
 
 export default function Home() {
+  
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
-  const isDrawingMode = useRef(false);
-  const selectedMode = useRef<SelectedMode | null>(null);
-  const lineObject = useRef({
-    line:null,
-    drawingLine:false,
-  });
+  const isDrawingMode = useRef<boolean>(false);  // when drawing lines
+  const selectedMode = useRef<SelectedMode | null>("cursor");
+  const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
+
+
 
   const canvasObjects = useStorage((root) => root.canvasObjects);
 
-  const addShapeInStorage = useMutation(({ storage }, object) => {
-    if (!object) return;
-    const { objectId } = object;
-    const shapeData = object.toJson();
-    shapeData.obejctId = objectId;
+  // const addShapeInStorage = useMutation(({ storage }, object) => {
+  //   if (!object) return;
+  //   const { objectId } = object;
+  //   const shapeData = object.toJson();
+  //   shapeData.obejctId = objectId;
 
-    const canvasObjects = storage.get("canvasObjects");
-    canvasObjects.set(objectId, shapeData);
-  }, []);
+  //   const canvasObjects = storage.get("canvasObjects");
+  //   canvasObjects.set(objectId, shapeData);
+  // }, []);
 
   useEffect(() => {
 
@@ -42,7 +42,7 @@ export default function Home() {
       canvasRef,
       fabricRef,
     });
-
+    
     canvas.on("mouse:down", (options) => {
       handleOnMouseDown({
         canvas,
@@ -50,37 +50,47 @@ export default function Home() {
         fabricRef,
         isDrawingMode,
         selectedMode,
-        lineObject,
+        shapeRef,
       });
     });
 
    canvas.on("mouse:move",(options)=>{
       handleOnMouseMove({
-        lineObject,
         isDrawingMode,
         selectedMode,
         options,
         canvas,
+        shapeRef,
+
       })
    })
    
     canvas.on("mouse:up",(options)=>{
        handleOnMouseUp({
-        lineObject,
         isDrawingMode,
         selectedMode,
         options,
         canvas,
+        shapeRef,
        })
     })
-canvas.selection = false;  // to avoid the selection background
+
+
+   
 
 
 console.log("rendering");
-  }, []);
+  }, [canvasRef]);  // run this only once when the component mounts
+
+
   return (
     <main className="h-screen ">
-      <Navbar isDrawingMode={isDrawingMode} selectedMode={selectedMode} fabricRef={fabricRef}/>
+      <Navbar 
+       isDrawingMode={isDrawingMode} 
+       selectedMode={selectedMode} 
+       fabricRef={fabricRef}
+       shapeRef={shapeRef}
+       />
       <Canvas canvasRef={canvasRef} />
     </main>
   );

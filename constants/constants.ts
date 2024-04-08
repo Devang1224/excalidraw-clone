@@ -16,7 +16,7 @@ export const navButtons = [
         name:"circle",
         icon:'/assets/icons/circle.svg'
     }, {
-        name:"arrowright",
+        name:"arrowline",
         icon:'/assets/icons/arrowright.svg'
     }, {
         name:"line",

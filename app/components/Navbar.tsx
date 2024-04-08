@@ -7,11 +7,11 @@ interface Props{
   isDrawingMode: React.MutableRefObject<boolean>,
   selectedMode: React.MutableRefObject<string | null>,
   fabricRef:React.MutableRefObject<fabric.Canvas | null>,
+  shapeRef:React.MutableRefObject<fabric.Object | null>,
 }
 
-const Navbar = ({isDrawingMode,selectedMode,fabricRef}:Props) => {
+const Navbar = ({isDrawingMode,selectedMode,fabricRef,shapeRef}:Props) => {
 
-  const [currentMode,setCurrentMode] = useState<string | null>(null);
 
 
   return (
@@ -24,17 +24,16 @@ const Navbar = ({isDrawingMode,selectedMode,fabricRef}:Props) => {
             item={item} 
             isDrawingMode={isDrawingMode} 
             selectedMode={selectedMode}
-            currentMode={currentMode}
-            setCurrentMode={setCurrentMode}  
             handleImageUpload={(e: any) => {
               // prevent the default behavior of the input element
               e.stopPropagation();
               handleImageUpload({
                 file: e.target.files[0],
                 canvas: fabricRef as any,
-                // shapeRef,
+                shapeRef,
                 // syncShapeInStorage,
               });
+              e.target.value="";
             }}
            />
         ))

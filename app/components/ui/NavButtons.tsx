@@ -9,10 +9,7 @@ interface Props{
     name:string
   },
   selectedMode: React.MutableRefObject<string | null>,
-  currentMode:string | null,
-  setCurrentMode:(mode: string | null) => void,
   handleImageUpload:(e:React.ChangeEvent<HTMLInputElement>)=>void,
-
 
 }
 
@@ -20,8 +17,6 @@ const NavButtons = ({
    item,
    isDrawingMode,
    selectedMode,
-   currentMode,
-   setCurrentMode,
    handleImageUpload,
   }:Props ) => {
 
@@ -29,13 +24,13 @@ const NavButtons = ({
   const handleDrawingMode = () =>{
         isDrawingMode.current = true;
          selectedMode.current = item.name;
-         setCurrentMode(selectedMode.current);
   }
+
 
 if(item.name!="image") {
   return (
          <button 
-          className={`p-2 rounded-lg flex justify-center items-center hover:bg-[#E0DFFE] ${(currentMode==item.name)?"bg-[#E0DFFE]":"bg-white"} `}
+          className={`p-2 rounded-lg flex justify-center items-center hover:bg-[#E0DFFE]`}
           onClick={handleDrawingMode}
           >
             <Image
@@ -43,7 +38,7 @@ if(item.name!="image") {
              alt=""
              width={20}
              height={20}
-             className='w-5 h-5'
+             className='w-auto h-auto'
             />
          </button>
   )
@@ -54,13 +49,14 @@ return (
   <label 
   className={`p-2 rounded-lg flex justify-center items-center hover:bg-[#E0DFFE]`}
   htmlFor='image'
+  onClick={handleDrawingMode}
   >
      <Image
              src={item.icon}
              alt=""
              width={20}
              height={20}
-             className='w-5 h-5 cursor-pointer'
+             className='w-auto h-auto cursor-pointer'
        />
  </label>
   <input
