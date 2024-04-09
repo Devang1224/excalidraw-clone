@@ -4,13 +4,12 @@ import { navButtons } from '@/constants/constants'
 import { handleImageUpload } from '@/lib/shapes';
 
 interface Props{
-  isDrawingMode: React.MutableRefObject<boolean>,
   selectedMode: React.MutableRefObject<string | null>,
   fabricRef:React.MutableRefObject<fabric.Canvas | null>,
   shapeRef:React.MutableRefObject<fabric.Object | null>,
 }
 
-const Navbar = ({isDrawingMode,selectedMode,fabricRef,shapeRef}:Props) => {
+const Navbar = ({selectedMode,fabricRef,shapeRef}:Props) => {
 
 
 
@@ -22,7 +21,6 @@ const Navbar = ({isDrawingMode,selectedMode,fabricRef,shapeRef}:Props) => {
           <NavButtons
             key={index}
             item={item} 
-            isDrawingMode={isDrawingMode} 
             selectedMode={selectedMode}
             handleImageUpload={(e: any) => {
               // prevent the default behavior of the input element

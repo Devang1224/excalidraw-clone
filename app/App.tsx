@@ -18,13 +18,13 @@ export default function Home() {
   
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
-  const isDrawingMode = useRef<boolean>(false);  // when drawing lines
+  const isDrawing = useRef<boolean>(false);  // when drawing lines
   const selectedMode = useRef<SelectedMode | null>("cursor");
   const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
+  const selectedShape = useRef<fabric.Object | null>(null);
 
 
-
-  const canvasObjects = useStorage((root) => root.canvasObjects);
+  // const canvasObjects = useStorage((root) => root.canvasObjects);
 
   // const addShapeInStorage = useMutation(({ storage }, object) => {
   //   if (!object) return;
@@ -48,15 +48,16 @@ export default function Home() {
         canvas,
         options,
         fabricRef,
-        isDrawingMode,
+        isDrawing,
         selectedMode,
         shapeRef,
+        selectedShape
       });
     });
 
    canvas.on("mouse:move",(options)=>{
       handleOnMouseMove({
-        isDrawingMode,
+        isDrawing,
         selectedMode,
         options,
         canvas,
@@ -67,7 +68,7 @@ export default function Home() {
    
     canvas.on("mouse:up",(options)=>{
        handleOnMouseUp({
-        isDrawingMode,
+        isDrawing,
         selectedMode,
         options,
         canvas,
@@ -76,7 +77,6 @@ export default function Home() {
     })
 
 
-   
 
 
 console.log("rendering");
@@ -86,7 +86,6 @@ console.log("rendering");
   return (
     <main className="h-screen ">
       <Navbar 
-       isDrawingMode={isDrawingMode} 
        selectedMode={selectedMode} 
        fabricRef={fabricRef}
        shapeRef={shapeRef}

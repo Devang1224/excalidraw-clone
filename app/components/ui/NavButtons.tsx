@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { handleImageUpload } from '@/lib/shapes';
 
 interface Props{
-  isDrawingMode: React.MutableRefObject<boolean>,
   item:{
     icon:string,
     name:string
@@ -15,14 +14,12 @@ interface Props{
 
 const NavButtons = ({
    item,
-   isDrawingMode,
    selectedMode,
    handleImageUpload,
   }:Props ) => {
 
 
   const handleDrawingMode = () =>{
-        isDrawingMode.current = true;
          selectedMode.current = item.name;
   }
 

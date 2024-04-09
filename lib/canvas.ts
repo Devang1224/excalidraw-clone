@@ -33,27 +33,30 @@ type onMouseDownParameters = {
     options:any,
     canvas:any,
     fabricRef:any,
-    isDrawingMode:React.MutableRefObject<boolean>,
+    isDrawing:React.MutableRefObject<boolean>,
     selectedMode:React.MutableRefObject<string | null>,
     shapeRef:React.MutableRefObject<fabric.Object | null>,
+    selectedShape:React.MutableRefObject<fabric.Object | null>
 }
 export function handleOnMouseDown({
     canvas, 
     options, 
-    isDrawingMode, 
+    isDrawing, 
     fabricRef, 
     selectedMode, 
     shapeRef,
+    selectedShape
 }:onMouseDownParameters){ 
 
 
-    const pointer = canvas.getPointer(options.e);  // to get pointer coordinates
-    const target = canvas.findTarget(options.e,false); 
+const pointer = canvas.getPointer(options.e);  // to get pointer coordinates
+const target = canvas.findTarget(options.e,false); 
 
 console.log("mode: ",selectedMode.current);
 console.log("target: ",target);
 
 if(selectedMode.current == "cursor"){
+    if(target)selectedShape.current = target;
     canvas.isDrawingMode = false;
     canvas.selection = true; // to enable group selection
     canvas.selectionColor = 'rgba(0,0,0,0)'; 
@@ -61,19 +64,23 @@ if(selectedMode.current == "cursor"){
     return;
 }
 
-    if(selectedMode.current == "freeDraw"){
-        canvas.isDrawingMode = true;
-        canvas.freeDrawingBrush.width = 5;
-        return;
-    }
+if(selectedMode.current == "delete"){
+   if(target){
+    canvas.remove(target);
+   }
+   return;
+}
+
+if(selectedMode.current == "freeDraw"){
+    canvas.isDrawingMode = true;
+    canvas.freeDrawingBrush.width = 5;
+    return;
+}
 
 
-
-// if an object is selected no need to make the shape on mousedown
-if(target) 
+if(target && selectedMode.current!=="cursor") 
 {
-    canvas.setActiveObject(target);
-    target.setCoords();
+    canvas.selection = false;
     return;
 }
 
@@ -82,94 +89,77 @@ if(selectedMode.current=="image"){
    selectedMode.current="cursor";
    return;
 }
+else{
+    canvas.isDrawingMode = false;
+    shapeRef.current = createSpecificShape(selectedMode,pointer,isDrawing);
 
-// when drawing a line
-    if(selectedMode.current=="line"){
-        canvas.isDrawingMode = false;
-        
-          shapeRef.current = createLine(pointer);
-            if(shapeRef.current){
-                canvas.add(shapeRef.current);
-            }
-            isDrawingMode.current = true;   // start drawing the line
-    }
-    else {
+    if(shapeRef?.current!=null){
+      canvas.add(shapeRef.current);
+     }
+    if(selectedMode.current!=="line")selectedMode.current="cursor";
+}
 
-     canvas.isDrawingMode = false;
-     shapeRef.current = createSpecificShape(selectedMode,pointer);
-    //  if(selectedMode.current=="text")selectedMode.current = null;
-
-     if(shapeRef?.current!=null){
-       canvas.add(shapeRef.current);
-      }
-      selectedMode.current="cursor";
-    }
 }
 
 
 ////////////// mouse move   ////////
 
 type handleOnMouseMoveTypes={
-    isDrawingMode:React.MutableRefObject<boolean>,
+    isDrawing:React.MutableRefObject<boolean>,
     selectedMode:React.MutableRefObject<string | null>,
     options:any,
     canvas:any,
-    shapeRef:any
-   
+    shapeRef:any,
 }
 export function handleOnMouseMove({
-    isDrawingMode,
+    isDrawing,
     selectedMode,
     options,
     canvas,
     shapeRef,
 }:handleOnMouseMoveTypes
 ){
-if(selectedMode.current=="freeDraw")return;
 
-let pointer  = canvas.getPointer(options.e);
+  if (selectedMode.current == "freeDraw") return;
+  if(!isDrawing.current)return;
 
-// switch(selectedMode?.current){
-//     case "image":
-//         shapeRef.current?.set({
-//             left:pointer.x,
-//             top:pointer.y
-//         })
-//         break;
-// }
+  let pointer = canvas.getPointer(options.e);
 
-
-if(shapeRef.current && selectedMode.current == "line" && isDrawingMode.current){
-    
-    canvas.selectionBorderColor = 'rgba(0,0,0,0';
+  if (
+    shapeRef.current &&
+    selectedMode.current == "line" &&
+    isDrawing.current
+  ) {
+    canvas.isDrawingMode = false;
+    canvas.selectionBorderColor = "rgba(0,0,0,0";
+    canvas.selectionColor = "rgba(0,0,0,0";
     shapeRef.current.set({
-     x2:pointer.x,
-     y2:pointer.y
-    })
-     canvas.renderAll();
-}
+      x2: pointer.x,
+      y2: pointer.y,
+    });
+    canvas.renderAll();
+  }
 
 }
 
 type handleOnMouseUpTypes={
-    isDrawingMode:React.MutableRefObject<boolean>,
+    isDrawing:React.MutableRefObject<boolean>,
     selectedMode:React.MutableRefObject<string | null>,
     options:any,
     canvas:any,
     shapeRef:React.MutableRefObject<fabric.Object | null>,
-   
 }
 export function handleOnMouseUp({
-isDrawingMode,
+isDrawing,
 selectedMode,
 options,
 canvas,
 shapeRef
 }:handleOnMouseUpTypes){
 
-
-if(selectedMode.current=="line" && isDrawingMode.current){
-  isDrawingMode.current = false;     // canceling the line drawing state once mouse is up
+if(selectedMode.current=="line"  && isDrawing.current){
+   isDrawing.current = false; // canceling the line drawing state once mouse is up
+   selectedMode.current="cursor"    
    return;
 }
  

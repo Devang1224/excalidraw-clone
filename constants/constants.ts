@@ -1,4 +1,11 @@
-export const navButtons = [
+import { SelectedMode } from './../types/types';
+
+interface navButtonTypes{
+    name:SelectedMode,
+    icon:string
+}
+
+export const navButtons:navButtonTypes[] = [
     {
         name:"hand",
         icon:'/assets/icons/hand.svg'
@@ -15,14 +22,12 @@ export const navButtons = [
     }, {
         name:"circle",
         icon:'/assets/icons/circle.svg'
-    }, {
-        name:"arrowline",
-        icon:'/assets/icons/arrowright.svg'
-    }, {
+    },
+     {
         name:"line",
         icon:'/assets/icons/line.svg'
     }, {
-        name:"freeDraw",
+        name:"freedraw",
         icon:'/assets/icons/pencil.svg'
     }, {
         name:"text",
@@ -32,8 +37,8 @@ export const navButtons = [
         icon:'/assets/icons/image.svg'
     },
     {
-        name:"eraser",
-        icon:'/assets/icons/eraser.svg'
+        name:"delete",
+        icon:'/assets/icons/trash.svg'
     },
     
     

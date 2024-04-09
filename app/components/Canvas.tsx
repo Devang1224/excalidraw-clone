@@ -33,8 +33,9 @@ const Canvas = ({canvasRef}:Props) => {
     >
         <canvas ref={canvasRef}/>
         <LiveCursors others={others}/>
+
     </div>
   )
 }
 
-export default Canvas
+export default React.memo(Canvas);

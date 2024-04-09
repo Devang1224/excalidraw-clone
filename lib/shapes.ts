@@ -37,7 +37,9 @@ export const createRectangle = (pointer:PointerEvent)=>{
 //   return rect;
 // }
 
-export const createLine = (pointer:PointerEvent)=>{
+export const createLine = (pointer:PointerEvent,isDrawing:React.MutableRefObject<boolean>)=>{
+  
+  isDrawing.current = true;
  return new fabric.Line(
     [pointer.x, pointer.y, pointer.x, pointer.y],
     {
@@ -86,7 +88,11 @@ export const createCircle = (pointer: PointerEvent) => {
     } as fabric.ITextOptions);
   };
 
-export const createSpecificShape = (selectedShape:React.MutableRefObject<string | null>,pointer:PointerEvent)=>{
+export const createSpecificShape = (
+   selectedShape:React.MutableRefObject<string | null>,
+   pointer:PointerEvent,
+   isDrawing:React.MutableRefObject<boolean>
+  )=>{
     
     switch(selectedShape.current){
       case 'rect':
@@ -95,8 +101,8 @@ export const createSpecificShape = (selectedShape:React.MutableRefObject<string 
         return createTriangle(pointer);
       case 'circle':
         return createCircle(pointer);
-      case 'arrowline':
-        return createArrowLine();
+      case 'line':
+         return createLine(pointer,isDrawing);
       case 'text':
         return createText(pointer,"Enter text...");
       default :
@@ -145,51 +151,7 @@ console.log("reading");
 
 
 
-function createArrowLine() {
 
-// Usage example:
-const startPoint = { x: 100, y: 100 };
-const endPoint = { x: 200, y: 200 };
-
-  const HEAD_LENGTH = 20;
-  const HEAD_ANGLE = Math.PI / 6;  // 30 deg
-
-    // Create the line
-    const line = new fabric.Line([startPoint.x, startPoint.y, endPoint.x, endPoint.y], {
-      stroke: 'black',
-      strokeWidth: 2,
-      selectable: true, // Make the line selectable
-  });
-
-  // Calculate the angle of the arrow line
-  const angle = Math.atan2(endPoint.y - startPoint.y, endPoint.x - startPoint.x); 
-
-
-  // Calculate the coordinates of the arrowhead lines
-  const x1 = endPoint.x - HEAD_LENGTH * Math.cos(angle - HEAD_ANGLE);
-  const y1 = endPoint.y - HEAD_LENGTH * Math.sin(angle - HEAD_ANGLE);
-  const x2 = endPoint.x - HEAD_LENGTH * Math.cos(angle + HEAD_ANGLE);
-  const y2 = endPoint.y - HEAD_LENGTH * Math.sin(angle + HEAD_ANGLE);
-
-  // Create the two lines for the arrowhead
-  const arrowLine1 = new fabric.Line([endPoint.x, endPoint.y, x1, y1], {
-      stroke: 'black',
-      strokeWidth: 2,
-      selectable: true, 
-  });
-  const arrowLine2 = new fabric.Line([endPoint.x, endPoint.y, x2, y2], {
-      stroke: 'black',
-      strokeWidth: 2,
-      selectable: true,
-  });
-
-  // Group the line and arrowhead lines together
-  const arrowLine = new fabric.Group([line, arrowLine1, arrowLine2], {
-      selectable: true, // Make the whole arrow line selectable
-  });
-
-  return arrowLine;
-}
 
 
 
