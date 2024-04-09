@@ -21,7 +21,7 @@ export default function Home() {
   const isDrawing = useRef<boolean>(false);  // when drawing lines
   const selectedMode = useRef<SelectedMode | null>("cursor");
   const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
-  const selectedShape = useRef<fabric.Object | null>(null);
+  const selectedShape = useRef<fabric.Object | null>(null)
 
 
   // const canvasObjects = useStorage((root) => root.canvasObjects);
@@ -77,6 +77,7 @@ export default function Home() {
     })
 
 
+   
 
 
 console.log("rendering");

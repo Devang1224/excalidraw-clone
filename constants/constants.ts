@@ -54,3 +54,20 @@ export const COLORS = [
     "#F06292",
     "#7986CB",
   ];
+
+
+export const StrokeColors = [
+    "#000000",
+    "#e03131",
+    "#2f9e44",
+    "#1971c2",
+    "#f08c00",
+]
+
+export const FillColors=[
+    "transparent",
+    "#ffc9c9",
+    "#b2f2bb",
+    "#a5d8ff",
+    "#ffec99"
+]
