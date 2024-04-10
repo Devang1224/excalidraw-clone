@@ -65,7 +65,6 @@ export const StrokeColors = [
 ]
 
 export const FillColors=[
-    "transparent",
     "#ffc9c9",
     "#b2f2bb",
     "#a5d8ff",
