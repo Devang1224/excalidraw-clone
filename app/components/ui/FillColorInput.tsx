@@ -21,9 +21,12 @@ const OnChangeColorPicker = (color:any)=>{
     setPickerActive(false);
 }
 
-  console.log(editOptions.fillColor);
+
 
   return (
+    <div className='flex flex-col gap-2'>
+        <p className='text-[12px]'>Background</p>
+
     <div className="flex relative">
       <div className="flex gap-2 border border-y-0 border-l-0 border-r-2 pr-2">
         <button
@@ -73,6 +76,7 @@ const OnChangeColorPicker = (color:any)=>{
           />
         </div>
       )}
+    </div>
     </div>
   );
 };

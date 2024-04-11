@@ -23,7 +23,7 @@ const Canvas = ({canvasRef}:Props) => {
       updateMyPresence({ cursor: null });
    },[]);
 
-  
+
 
 
   return (

@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Navbar from "./components/Navbar";
 import Canvas from "./components/Canvas";
-import {useEffect, useRef } from "react";
+import {useEffect, useRef, useState } from "react";
 import { handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, initializeFabric } from "@/lib/canvas";
 import {
   useMutation,
@@ -13,6 +12,7 @@ import {
 } from "@/liveblocks.config";
 import LiveCursors from "./components/cursor/LiveCursors";
 import { LineObject, SelectedMode } from "@/types/types";
+import EditPannel from "./components/EditPannel";
 
 export default function Home() {
   
@@ -22,7 +22,7 @@ export default function Home() {
   const selectedMode = useRef<SelectedMode | null>("cursor");
   const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
   const selectedShape = useRef<fabric.Object | null>(null)
-
+  const [editPannelActive,setEditPannelActive] = useState<boolean>(false);
 
   // const canvasObjects = useStorage((root) => root.canvasObjects);
 
@@ -51,7 +51,8 @@ export default function Home() {
         isDrawing,
         selectedMode,
         shapeRef,
-        selectedShape
+        selectedShape,
+        setEditPannelActive,
       });
     });
 
@@ -77,9 +78,6 @@ export default function Home() {
     })
 
 
-   
-
-
 console.log("rendering");
   }, [canvasRef]);  // run this only once when the component mounts
 
@@ -91,7 +89,8 @@ console.log("rendering");
        fabricRef={fabricRef}
        shapeRef={shapeRef}
        />
-      <Canvas canvasRef={canvasRef} />
+     <EditPannel fabricRef={fabricRef} editPannelActive={editPannelActive}/>
+      <Canvas canvasRef={canvasRef}/>
     </main>
   );
 }

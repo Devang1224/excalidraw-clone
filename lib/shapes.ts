@@ -12,6 +12,8 @@ export const createRectangle = (pointer:PointerEvent)=>{
          width: 100,
          height: 100,
          fill:"#97E7E1",
+         stroke:"black",
+         strokeWidth:2,
          rx:5,           
          ry:5,            
          objectId:uuidv4()

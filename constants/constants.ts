@@ -1,3 +1,4 @@
+
 import { SelectedMode } from './../types/types';
 
 interface navButtonTypes{
@@ -69,4 +70,35 @@ export const FillColors=[
     "#b2f2bb",
     "#a5d8ff",
     "#ffec99"
+]
+
+export const LayerButtons = [
+{
+    id:1,
+    name:"Bottom",
+    icon:require('@/public/assets/icons/LayerBottom').default,
+    title:"Layer Bottom",
+},
+{
+    id:2,
+    name:"Down",
+    icon:require('@/public/assets/icons/LayerDown').default,
+    title:"Layer Down"
+
+},
+{
+    id:3,
+    name:"Up",
+    icon:require('@/public/assets/icons/LayerUp').default,
+    title:"Layer Up"
+
+},
+{
+    id:4,
+    name:"Top",
+    icon:require('@/public/assets/icons/LayerTop').default,
+    title:"Layer Top"
+
+},
+
 ]

@@ -12,10 +12,8 @@ interface Props{
 
 const Navbar = ({selectedMode,fabricRef,shapeRef}:Props) => {
 
-
-
   return (
-<>
+
       <div className='p-2 z-10 flex gap-2 rounded-lg bg-white border shadow-primary absolute left-[50%] top-2 translate-x-[-50%]'>
       {
         navButtons?.map((item,index)=>(
@@ -38,8 +36,7 @@ const Navbar = ({selectedMode,fabricRef,shapeRef}:Props) => {
         ))
       }
        </div>
-       <EditPannel/>
-</>
+
   )
 }
 

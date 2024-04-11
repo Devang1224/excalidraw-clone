@@ -36,7 +36,9 @@ type onMouseDownParameters = {
     isDrawing:React.MutableRefObject<boolean>,
     selectedMode:React.MutableRefObject<string | null>,
     shapeRef:React.MutableRefObject<fabric.Object | null>,
-    selectedShape:React.MutableRefObject<fabric.Object | null>
+    selectedShape:React.MutableRefObject<fabric.Object | null>,
+    setEditPannelActive:(state:boolean)=>void,
+
 }
 export function handleOnMouseDown({
     canvas, 
@@ -45,7 +47,8 @@ export function handleOnMouseDown({
     fabricRef, 
     selectedMode, 
     shapeRef,
-    selectedShape
+    selectedShape,
+    setEditPannelActive
 }:onMouseDownParameters){ 
 
 
@@ -56,7 +59,13 @@ console.log("mode: ",selectedMode.current);
 console.log("target: ",target);
 
 if(selectedMode.current == "cursor"){
-    if(target)selectedShape.current = target;
+    if(target)
+      {
+        selectedShape.current = target;
+        setEditPannelActive(true);
+      }else {
+         setEditPannelActive(false);
+      }
     canvas.isDrawingMode = false;
     canvas.selection = true; // to enable group selection
     canvas.selectionColor = 'rgba(0,0,0,0)'; 
@@ -71,7 +80,7 @@ if(selectedMode.current == "delete"){
    return;
 }
 
-if(selectedMode.current == "freeDraw"){
+if(selectedMode.current == "freedraw"){
     canvas.isDrawingMode = true;
     canvas.freeDrawingBrush.width = 5;
     return;
@@ -120,7 +129,7 @@ export function handleOnMouseMove({
 }:handleOnMouseMoveTypes
 ){
 
-  if (selectedMode.current == "freeDraw") return;
+  if (selectedMode.current == "freedraw") return;
   if(!isDrawing.current)return;
 
   let pointer = canvas.getPointer(options.e);

@@ -25,6 +25,9 @@ const OnChangeColorPicker = (color:any)=>{
 console.log(editOptions.strokeColor);
 
   return (
+    <div className='flex flex-col gap-2'>
+        <p className='text-[12px]'>Stroke</p>
+
     <div className="flex relative">
       <div className="flex gap-2 border border-y-0 border-l-0 border-r-2 pr-2">
         {StrokeColors.map((item) => (
@@ -48,6 +51,7 @@ console.log(editOptions.strokeColor);
             <BlockPicker color={editOptions.strokeColor} onChange={OnChangeColorPicker}/>
          </div>
       }
+    </div>
     </div>
   );
 };
