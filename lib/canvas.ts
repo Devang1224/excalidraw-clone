@@ -1,6 +1,6 @@
 import {fabric} from "fabric"
 import { createLine, createSpecificShape } from "./shapes";
-import { CustomFabricObject, LineObject } from "@/types/types";
+import { CustomFabricObject, LineObject, SelectedMode } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -34,10 +34,11 @@ type onMouseDownParameters = {
     canvas:any,
     fabricRef:any,
     isDrawing:React.MutableRefObject<boolean>,
-    selectedMode:React.MutableRefObject<string | null>,
+    selectedMode:React.MutableRefObject<SelectedMode>, 
     shapeRef:React.MutableRefObject<fabric.Object | null>,
     selectedShape:React.MutableRefObject<fabric.Object | null>,
     setEditPannelActive:(state:boolean)=>void,
+    setSelectedModeState:(mode:SelectedMode)=>void,
 
 }
 export function handleOnMouseDown({
@@ -48,7 +49,8 @@ export function handleOnMouseDown({
     selectedMode, 
     shapeRef,
     selectedShape,
-    setEditPannelActive
+    setEditPannelActive,
+    setSelectedModeState
 }:onMouseDownParameters){ 
 
 
@@ -72,6 +74,15 @@ if(selectedMode.current == "cursor"){
     canvas.selectionBorderColor = 'blue'; 
     return;
 }
+else{
+  canvas.selection = false;
+}
+
+if(selectedMode.current == "freedraw"){
+  canvas.isDrawingMode = true;
+  canvas.freeDrawingBrush.width = 5;
+  return;
+}
 
 if(selectedMode.current == "delete"){
    if(target){
@@ -80,22 +91,10 @@ if(selectedMode.current == "delete"){
    return;
 }
 
-if(selectedMode.current == "freedraw"){
-    canvas.isDrawingMode = true;
-    canvas.freeDrawingBrush.width = 5;
-    return;
-}
-
-
-if(target && selectedMode.current!=="cursor") 
-{
-    canvas.selection = false;
-    return;
-}
-
 
 if(selectedMode.current=="image"){
    selectedMode.current="cursor";
+   setSelectedModeState("cursor");
    return;
 }
 else{
@@ -106,6 +105,7 @@ else{
       canvas.add(shapeRef.current);
      }
     if(selectedMode.current!=="line")selectedMode.current="cursor";
+
 }
 
 }
@@ -115,10 +115,12 @@ else{
 
 type handleOnMouseMoveTypes={
     isDrawing:React.MutableRefObject<boolean>,
-    selectedMode:React.MutableRefObject<string | null>,
+    selectedMode:React.MutableRefObject<SelectedMode>,
     options:any,
     canvas:any,
     shapeRef:any,
+    setSelectedModeState:(mode:SelectedMode)=>void,
+
 }
 export function handleOnMouseMove({
     isDrawing,
@@ -126,6 +128,7 @@ export function handleOnMouseMove({
     options,
     canvas,
     shapeRef,
+    setSelectedModeState
 }:handleOnMouseMoveTypes
 ){
 
@@ -153,23 +156,32 @@ export function handleOnMouseMove({
 
 type handleOnMouseUpTypes={
     isDrawing:React.MutableRefObject<boolean>,
-    selectedMode:React.MutableRefObject<string | null>,
+    selectedMode:React.MutableRefObject<SelectedMode>,
     options:any,
     canvas:any,
     shapeRef:React.MutableRefObject<fabric.Object | null>,
+    setSelectedModeState:(mode:SelectedMode)=>void,
+
+
 }
 export function handleOnMouseUp({
 isDrawing,
 selectedMode,
 options,
 canvas,
-shapeRef
+shapeRef,
+setSelectedModeState
 }:handleOnMouseUpTypes){
 
 if(selectedMode.current=="line"  && isDrawing.current){
    isDrawing.current = false; // canceling the line drawing state once mouse is up
    selectedMode.current="cursor"    
+   setSelectedModeState("cursor")
    return;
+}
+if(selectedMode.current!=="freedraw"){
+  selectedMode.current="cursor"    
+  setSelectedModeState("cursor")
 }
  
 }

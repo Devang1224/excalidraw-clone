@@ -1,4 +1,4 @@
-import { CustomFabricObject } from "@/types/types";
+import { CustomFabricObject, SelectedMode } from "@/types/types";
 import {fabric} from "fabric"
 import { v4 as uuidv4 } from "uuid";
 
@@ -91,12 +91,12 @@ export const createCircle = (pointer: PointerEvent) => {
   };
 
 export const createSpecificShape = (
-   selectedShape:React.MutableRefObject<string | null>,
+   selectedMode:React.MutableRefObject<SelectedMode>,
    pointer:PointerEvent,
-   isDrawing:React.MutableRefObject<boolean>
+   isDrawing:React.MutableRefObject<boolean>,
   )=>{
     
-    switch(selectedShape.current){
+    switch(selectedMode.current){
       case 'rect':
          return createRectangle(pointer);
       case 'triangle':

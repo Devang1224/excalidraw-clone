@@ -3,14 +3,17 @@ import NavButtons from './ui/NavButtons'
 import { navButtons } from '@/constants/constants'
 import { handleImageUpload } from '@/lib/shapes';
 import EditPannel from './EditPannel';
+import { SelectedMode } from '@/types/types';
 
 interface Props{
-  selectedMode: React.MutableRefObject<string | null>,
+  selectedMode:React.MutableRefObject<SelectedMode>,
+  setSelectedModeState:(mode:SelectedMode)=>void,
+  selectedModeState:SelectedMode,
   fabricRef:React.MutableRefObject<fabric.Canvas | null>,
   shapeRef:React.MutableRefObject<fabric.Object | null>,
 }
 
-const Navbar = ({selectedMode,fabricRef,shapeRef}:Props) => {
+const Navbar = ({selectedMode,fabricRef,shapeRef,setSelectedModeState,selectedModeState}:Props) => {
 
   return (
 
@@ -21,6 +24,8 @@ const Navbar = ({selectedMode,fabricRef,shapeRef}:Props) => {
             key={index}
             item={item} 
             selectedMode={selectedMode}
+            selectedModeState={selectedModeState}
+            setSelectedModeState={setSelectedModeState}
             handleImageUpload={(e: any) => {
               // prevent the default behavior of the input element
               e.stopPropagation();

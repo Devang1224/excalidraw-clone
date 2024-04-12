@@ -19,7 +19,8 @@ export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
   const isDrawing = useRef<boolean>(false);  // when drawing lines
-  const selectedMode = useRef<SelectedMode | null>("cursor");
+  const selectedMode = useRef<SelectedMode>("cursor");
+  const [selectedModeState,setSelectedModeState] = useState<SelectedMode>("cursor"); // for Nav Buttons only 
   const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
   const selectedShape = useRef<fabric.Object | null>(null)
   const [editPannelActive,setEditPannelActive] = useState<boolean>(false);
@@ -50,6 +51,7 @@ export default function Home() {
         fabricRef,
         isDrawing,
         selectedMode,
+        setSelectedModeState,
         shapeRef,
         selectedShape,
         setEditPannelActive,
@@ -60,6 +62,7 @@ export default function Home() {
       handleOnMouseMove({
         isDrawing,
         selectedMode,
+        setSelectedModeState,
         options,
         canvas,
         shapeRef,
@@ -71,6 +74,7 @@ export default function Home() {
        handleOnMouseUp({
         isDrawing,
         selectedMode,
+        setSelectedModeState,
         options,
         canvas,
         shapeRef,
@@ -86,10 +90,12 @@ console.log("rendering");
     <main className="h-screen ">
       <Navbar 
        selectedMode={selectedMode} 
+       setSelectedModeState={setSelectedModeState}
+       selectedModeState={selectedModeState}
        fabricRef={fabricRef}
        shapeRef={shapeRef}
        />
-     <EditPannel fabricRef={fabricRef} editPannelActive={editPannelActive}/>
+      <EditPannel fabricRef={fabricRef} editPannelActive={editPannelActive}/>
       <Canvas canvasRef={canvasRef}/>
     </main>
   );
