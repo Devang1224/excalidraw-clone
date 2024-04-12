@@ -3,6 +3,8 @@ import Image from 'next/image'
 import { handleImageUpload } from '@/lib/shapes';
 import { SelectedMode } from '@/types/types';
 
+
+
 interface Props{
   item:{
     icon:string,

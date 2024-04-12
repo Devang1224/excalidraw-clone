@@ -17,10 +17,16 @@ export type SelectedLayer = null | "Up" | 'Down' | "Bottom" | "Top";
 
 export type SelectedStroke = "semiBold" | "bold" | "extraBold";
 
+export type FontFamilyType = "Helvetica" | "Virgil" | "Cascadia"
+
+
+
 export interface EditOptions {
   strokeColor:string,
   fillColor:string,
   fillState:boolean,
   strokeType:SelectedStroke,
   layerType:SelectedLayer,
+  fontFamily:FontFamilyType,
+  fontSize:number,
 }

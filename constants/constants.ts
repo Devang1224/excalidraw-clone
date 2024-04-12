@@ -102,3 +102,53 @@ export const LayerButtons = [
 },
 
 ]
+
+export const FontSizeData =[
+    {
+        id:'1',
+        name:"small",
+        text:"S",
+        value:14,
+    },
+    {
+        id:'2',
+        name:"medium",
+        text:"M",
+        value:18,
+    },
+    {
+        id:'3',
+        name:"large",
+        text:"L",
+        value:20,
+    },
+    {
+        id:'4',
+        name:"extra large",
+        text:"XL",
+        value:24,
+    },
+]
+
+export const FontFamilyData = [
+    {
+        id:"1",
+        value:"Helvetica",
+        icon:require('@/public/assets/icons/PenIcon').default,
+        toolTip:"hand-drawn",
+    },
+    {
+        id:"2",
+        value:"Virgil",
+        icon:require('@/public/assets/icons/AIcon').default,
+        toolTip:"normal",
+
+    },
+    {
+        id:"3",
+        value:"Cascadia",
+        icon:require('@/public/assets/icons/CodeIcon').default,
+        toolTip:"code",
+
+    }
+]

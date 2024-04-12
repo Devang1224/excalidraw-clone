@@ -23,7 +23,7 @@ export default function Home() {
   const [selectedModeState,setSelectedModeState] = useState<SelectedMode>("cursor"); // for Nav Buttons only 
   const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
   const selectedShape = useRef<fabric.Object | null>(null)
-  const [editPannelActive,setEditPannelActive] = useState<boolean>(false);
+  const [editPannelActive,setEditPannelActive] = useState<boolean>(true);
 
   // const canvasObjects = useStorage((root) => root.canvasObjects);
 
@@ -87,7 +87,7 @@ console.log("rendering");
 
 
   return (
-    <main className="h-screen ">
+    <main className="h-screen">
       <Navbar 
        selectedMode={selectedMode} 
        setSelectedModeState={setSelectedModeState}
@@ -95,7 +95,11 @@ console.log("rendering");
        fabricRef={fabricRef}
        shapeRef={shapeRef}
        />
-      <EditPannel fabricRef={fabricRef} editPannelActive={editPannelActive}/>
+      <EditPannel 
+       fabricRef={fabricRef} 
+       editPannelActive={editPannelActive}
+       selectedModeState={selectedModeState}
+       />
       <Canvas canvasRef={canvasRef}/>
     </main>
   );
