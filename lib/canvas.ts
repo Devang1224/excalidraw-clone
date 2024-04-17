@@ -1,6 +1,6 @@
 import {fabric} from "fabric"
 import { createLine, createSpecificShape } from "./shapes";
-import { CustomFabricObject, LineObject, SelectedMode } from "@/types/types";
+import { CustomFabricObject, HandleOnMouseDown, HandleOnMouseMove, HandleOnMouseUp, LineObject, RenderCanvas, SelectedMode } from "@/types/types";
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -28,19 +28,6 @@ export const initializeFabric = ({
 
 
 
-
-type onMouseDownParameters = {
-    options:any,
-    canvas:any,
-    fabricRef:any,
-    isDrawing:React.MutableRefObject<boolean>,
-    selectedMode:React.MutableRefObject<SelectedMode>, 
-    shapeRef:React.MutableRefObject<fabric.Object | null>,
-    selectedShape:React.MutableRefObject<fabric.Object | null>,
-    setEditPannelActive:(state:boolean)=>void,
-    setSelectedModeState:(mode:SelectedMode)=>void,
-
-}
 export function handleOnMouseDown({
     canvas, 
     options, 
@@ -49,34 +36,34 @@ export function handleOnMouseDown({
     selectedMode, 
     shapeRef,
     selectedShape,
-    setEditPannelActive,
-    setSelectedModeState
-}:onMouseDownParameters){ 
+    setEditPannelState,
+    setSelectedModeState,
+    deleteShapeFromStorage,
+    syncShapeInStorage
+}:HandleOnMouseDown){ 
 
 
 const pointer = canvas.getPointer(options.e);  // to get pointer coordinates
 const target = canvas.findTarget(options.e,false); 
 
-console.log("mode: ",selectedMode.current);
 console.log("target: ",target);
 
 if(selectedMode.current == "cursor"){
-    if(target)
+    if(target && target.type!="activeSelection")
       {
         selectedShape.current = target;
-        setEditPannelActive(true);
+        setEditPannelState(target.type);
       }else {
-         setEditPannelActive(false);
+         setEditPannelState(false);
       }
     canvas.isDrawingMode = false;
     canvas.selection = true; // to enable group selection
     canvas.selectionColor = 'rgba(0,0,0,0)'; 
     canvas.selectionBorderColor = 'blue'; 
+    canvas.preserveObjectStacking = true;
     return;
 }
-else{
-  canvas.selection = false;
-}
+
 
 if(selectedMode.current == "freedraw"){
   canvas.isDrawingMode = true;
@@ -87,6 +74,7 @@ if(selectedMode.current == "freedraw"){
 if(selectedMode.current == "delete"){
    if(target){
     canvas.remove(target);
+    deleteShapeFromStorage(target.objectId);
    }
    return;
 }
@@ -101,8 +89,9 @@ else{
     canvas.isDrawingMode = false;
     shapeRef.current = createSpecificShape(selectedMode,pointer,isDrawing);
 
-    if(shapeRef?.current!=null){
+    if(shapeRef?.current!=null && selectedMode.current!="line"){
       canvas.add(shapeRef.current);
+      syncShapeInStorage(shapeRef.current)
      }
     if(selectedMode.current!=="line")selectedMode.current="cursor";
 
@@ -113,23 +102,17 @@ else{
 
 ////////////// mouse move   ////////
 
-type handleOnMouseMoveTypes={
-    isDrawing:React.MutableRefObject<boolean>,
-    selectedMode:React.MutableRefObject<SelectedMode>,
-    options:any,
-    canvas:any,
-    shapeRef:any,
-    setSelectedModeState:(mode:SelectedMode)=>void,
 
-}
 export function handleOnMouseMove({
     isDrawing,
     selectedMode,
     options,
     canvas,
     shapeRef,
-    setSelectedModeState
-}:handleOnMouseMoveTypes
+    setSelectedModeState,
+    syncShapeInStorage
+    
+}:HandleOnMouseMove
 ){
 
   if (selectedMode.current == "freedraw") return;
@@ -149,34 +132,28 @@ export function handleOnMouseMove({
       x2: pointer.x,
       y2: pointer.y,
     });
-    canvas.renderAll();
+    syncShapeInStorage(shapeRef.current)
   }
 
 }
 
-type handleOnMouseUpTypes={
-    isDrawing:React.MutableRefObject<boolean>,
-    selectedMode:React.MutableRefObject<SelectedMode>,
-    options:any,
-    canvas:any,
-    shapeRef:React.MutableRefObject<fabric.Object | null>,
-    setSelectedModeState:(mode:SelectedMode)=>void,
 
-
-}
 export function handleOnMouseUp({
 isDrawing,
 selectedMode,
 options,
 canvas,
 shapeRef,
-setSelectedModeState
-}:handleOnMouseUpTypes){
+setSelectedModeState,
+syncShapeInStorage
+
+}:HandleOnMouseUp){
 
 if(selectedMode.current=="line"  && isDrawing.current){
    isDrawing.current = false; // canceling the line drawing state once mouse is up
    selectedMode.current="cursor"    
    setSelectedModeState("cursor")
+   console.log(shapeRef.current);
    return;
 }
 if(selectedMode.current!=="freedraw"){
@@ -185,3 +162,38 @@ if(selectedMode.current!=="freedraw"){
 }
  
 }
+
+
+export const renderCanvas = ({
+  fabricRef,
+  canvasObjects,
+  selectedShape,
+}: RenderCanvas) => {
+
+  //to clear canvas
+  fabricRef.current?.clear();
+
+  // render all objects on canvas
+  Array.from(canvasObjects, ([objectId, objectData]) => {
+
+    //  enlivenObjects: http://fabricjs.com/docs/fabric.util.html#.enlivenObjectEnlivables
+
+    fabric.util.enlivenObjects(
+      [objectData],
+      (enlivenedObjects: fabric.Object[]) => {
+        enlivenedObjects.forEach((enlivenedObj) => {
+          // if element is active, keep it in active state so that it can be edited further
+          if (selectedShape.current?.objectId === objectId) {
+            fabricRef.current?.setActiveObject(enlivenedObj);
+          }
+
+          // add object to canvas
+          fabricRef.current?.add(enlivenedObj);
+        });
+      },
+      "fabric"
+    );
+  });
+
+  fabricRef.current?.renderAll();
+};

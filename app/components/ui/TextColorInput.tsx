@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import ColorCheckBox from "./ColorCheckBox";
-import { FillColors } from "@/constants/constants";
+import { TextColors } from "@/constants/constants";
 import { BlockPicker } from "react-color";
 
 // interface Props {
 //   strokeColor: string;
 //   setStrokeColor: (color: string) => void;
 // }
-const FillColorInput = ({ editOptions, setEditOptions }: any) => {
+const TextColorInput = ({ editOptions, setEditOptions}: any) => {
 
   const [pickerActive, setPickerActive] = useState<boolean>(false);
 
-  const handleSetFillColor = (color: string) => {
-    setEditOptions((prev:any)=>({...prev,fill:color}));
+  const handleSetTextColor = (color: string) => {
+    setEditOptions((prev:any)=>({...prev,textColor:color}));
     setPickerActive(false);
   };
 
 const OnChangeColorPicker = (color:any)=>{
-    setEditOptions((prev:any)=>({...prev,fill:color.hex}))
+    setEditOptions((prev:any)=>({...prev,textColor:color.hex}))
     setPickerActive(false);
 }
 
@@ -25,31 +25,23 @@ const OnChangeColorPicker = (color:any)=>{
 
   return (
     <div className='flex flex-col gap-2'>
-        <p className='text-[12px]'>Fill</p>
+        <p className='text-[12px]'>Color</p>
 
     <div className="flex relative">
       <div className="flex gap-2 border border-y-0 border-l-0 border-r-2 pr-2">
-         <button
-          className={` w-[20px] h-[20px] rounded-md border flex flex-col overflow-hidden ${
-            editOptions.fill == "transparent" && !pickerActive && "outline"
-          } outline-offset-1 outline-[#6565f5]`}
-          onClick={() => handleSetFillColor("transparent")}
-        >
-          <div className="w-[10px] h-[10px]  bg-[#80808052]" />
-          <div className="w-[10px] h-[10px] bg-[#80808052] self-end" />
-        </button>
-        {FillColors.map((item) => (
+
+        {TextColors.map((item) => (
           <ColorCheckBox
             key={item}
             item={item}
-            handleOnChange={handleSetFillColor}
+            handleOnChange={handleSetTextColor}
             pickerActive={pickerActive}
-            color={editOptions.fill}
+            color={editOptions.textColor}
           />
         ))}
       </div>
 
-      {editOptions.fill == "transparent" ? (
+      {editOptions.textColor == "transparent" ? (
         <button
           className={` w-[20px] h-[20px] ml-2 rounded-md border flex flex-col overflow-hidden
            ${pickerActive && "outline"} outline-offset-1 outline-[#6565f5]`}
@@ -81,4 +73,4 @@ const OnChangeColorPicker = (color:any)=>{
   );
 };
 
-export default FillColorInput;
+export default TextColorInput;

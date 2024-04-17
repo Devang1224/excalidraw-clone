@@ -8,7 +8,7 @@ const FillStateInput = ({ setEditOptions, fillState }: any) => {
   return (
     <div className='flex flex-col gap-2'>
 
-      <p className="text-[12px]">Fill</p>
+      <p className="text-[12px]">Fill Type</p>
 
       <div className="flex gap-2">
         <button

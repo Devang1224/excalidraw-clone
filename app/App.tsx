@@ -3,7 +3,7 @@
 import Navbar from "./components/Navbar";
 import Canvas from "./components/Canvas";
 import {useEffect, useRef, useState } from "react";
-import { handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, initializeFabric } from "@/lib/canvas";
+import { handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, initializeFabric, renderCanvas } from "@/lib/canvas";
 import {
   useMutation,
   useMyPresence,
@@ -23,19 +23,31 @@ export default function Home() {
   const [selectedModeState,setSelectedModeState] = useState<SelectedMode>("cursor"); // for Nav Buttons only 
   const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
   const selectedShape = useRef<fabric.Object | null>(null)
-  const [editPannelActive,setEditPannelActive] = useState<boolean>(true);
+  const [editPannelState,setEditPannelState] = useState<string | boolean>(false);
 
-  // const canvasObjects = useStorage((root) => root.canvasObjects);
+  // to use liveblocks storage
+  const canvasObjects = useStorage((root) => root.canvasObjects);
 
-  // const addShapeInStorage = useMutation(({ storage }, object) => {
-  //   if (!object) return;
-  //   const { objectId } = object;
-  //   const shapeData = object.toJson();
-  //   shapeData.obejctId = objectId;
+  
+  const syncShapeInStorage = useMutation(({ storage }, object) => {
 
-  //   const canvasObjects = storage.get("canvasObjects");
-  //   canvasObjects.set(objectId, shapeData);
-  // }, []);
+    if (!object) return;
+    const { objectId } = object;
+
+    const shapeData = object.toJSON();
+    shapeData.objectId = objectId;
+
+    const canvasObjects = storage.get("canvasObjects");
+
+    canvasObjects.set(objectId, shapeData);
+
+  }, []);
+
+
+  const deleteShapeFromStorage = useMutation(({ storage }, shapeId) => {
+    const canvasObjects = storage.get("canvasObjects");
+    canvasObjects.delete(shapeId);
+  }, []);
 
   useEffect(() => {
 
@@ -54,7 +66,9 @@ export default function Home() {
         setSelectedModeState,
         shapeRef,
         selectedShape,
-        setEditPannelActive,
+        setEditPannelState,
+        deleteShapeFromStorage,
+        syncShapeInStorage,
       });
     });
 
@@ -66,6 +80,7 @@ export default function Home() {
         options,
         canvas,
         shapeRef,
+        syncShapeInStorage,
 
       })
    })
@@ -78,6 +93,7 @@ export default function Home() {
         options,
         canvas,
         shapeRef,
+        syncShapeInStorage,
        })
     })
 
@@ -85,6 +101,14 @@ export default function Home() {
 console.log("rendering");
   }, [canvasRef]);  // run this only once when the component mounts
 
+
+  useEffect(()=>{
+    renderCanvas({
+      fabricRef,
+      canvasObjects,
+      selectedShape
+    })
+  },[canvasObjects])
 
   return (
     <main className="h-screen">
@@ -96,9 +120,11 @@ console.log("rendering");
        shapeRef={shapeRef}
        />
       <EditPannel 
-       fabricRef={fabricRef} 
-       editPannelActive={editPannelActive}
+       canvas={fabricRef.current as fabric.Canvas} 
+       editPannelState={editPannelState}
        selectedModeState={selectedModeState}
+       selectedShape={selectedShape}
+       syncShapeInStorage={syncShapeInStorage}
        />
       <Canvas canvasRef={canvasRef}/>
     </main>

@@ -72,6 +72,14 @@ export const FillColors=[
     "#ffec99"
 ]
 
+export const TextColors= [
+    "#000000",
+    "#ffc9c9",
+    "#b2f2bb",
+    "#a5d8ff",
+    "#ffec99"
+]
+
 export const LayerButtons = [
 {
     id:1,
@@ -108,38 +116,38 @@ export const FontSizeData =[
         id:'1',
         name:"small",
         text:"S",
-        value:14,
+        value:16,
     },
     {
         id:'2',
         name:"medium",
         text:"M",
-        value:18,
+        value:24,
     },
     {
         id:'3',
         name:"large",
         text:"L",
-        value:20,
+        value:34,
     },
     {
         id:'4',
         name:"extra large",
         text:"XL",
-        value:24,
+        value:54,
     },
 ]
 
 export const FontFamilyData = [
     {
         id:"1",
-        value:"Helvetica",
+        value:"Virgil",
         icon:require('@/public/assets/icons/PenIcon').default,
         toolTip:"hand-drawn",
     },
     {
         id:"2",
-        value:"Virgil",
+        value:"Helvetica",
         icon:require('@/public/assets/icons/AIcon').default,
         toolTip:"normal",
 

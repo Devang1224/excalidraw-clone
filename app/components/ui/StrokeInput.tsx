@@ -3,26 +3,23 @@ import ColorCheckBox from "./ColorCheckBox";
 import { StrokeColors } from "@/constants/constants";
 import { BlockPicker } from "react-color";
 
-// interface Props {
-//   strokeColor: string;
-//   setStrokeColor: (color: string) => void;
-// }
+
 
 const StrokeInput = ({ editOptions,setEditOptions}: any) => {
 
   const [pickerActive, setPickerActive] = useState<boolean>(false);
 
   const handleSetStrokeColor = (color: string) => {
-     setEditOptions((prev:any)=>({...prev,strokeColor:color}))
+     setEditOptions((prev:any)=>({...prev,stroke:color}))
      setPickerActive(false);
      
   };
 
 const OnChangeColorPicker = (color:any)=>{
-  setEditOptions((prev:any)=>({...prev,strokeColor:color.hex}))
+  setEditOptions((prev:any)=>({...prev,stroke:color.hex}))
   setPickerActive(false);
 }
-console.log(editOptions.strokeColor);
+console.log(editOptions.stroke);
 
   return (
     <div className='flex flex-col gap-2'>
@@ -36,19 +33,18 @@ console.log(editOptions.strokeColor);
             item={item}
             handleOnChange={handleSetStrokeColor}
             pickerActive={pickerActive}
-            color={editOptions.strokeColor}
+            color={editOptions.stroke}
           />
         ))}
       </div>
       <button
-        className={` w-[20px] h-[20px] rounded-md ml-2  ${
-          pickerActive && "outline"
-        } outline-offset-1 outline-[#6565f5]`}
-        style={{ backgroundColor: editOptions.strokeColor }}
+        className={` w-[20px] h-[20px] rounded-md ml-2 
+         ${ pickerActive && "outline"} outline-offset-1 outline-[#6565f5]`}
+        style={{ backgroundColor: editOptions.stroke }}
         onClick={() => setPickerActive(true)}
       />
       {  pickerActive && <div className="absolute translate-x-[100%] right-[-20px]">
-            <BlockPicker color={editOptions.strokeColor} onChange={OnChangeColorPicker}/>
+            <BlockPicker color={editOptions.stroke} onChange={OnChangeColorPicker}/>
          </div>
       }
     </div>

@@ -2,18 +2,13 @@ import { EditOptions, SelectedStroke } from "@/types/types";
 import React, { useState } from "react";
 
 
-interface Props {
-  setEditOptions:(type:any)=>void,
-  strokeType:SelectedStroke
-}
-
-const StrokeWidth = ({ setEditOptions, strokeType }: Props) => {
+const StrokeWidth = ({ setEditOptions, storkWidth }: any) => {
 
 
 
   const handleStrokeChange = (e:any,value:number) => {
-   const name = e.target.name;
-   setEditOptions((prev:any)=>({...prev,strokeType:name}))
+
+   setEditOptions((prev:any)=>({...prev,strokeWidth:value}))
   };
 
   return (
@@ -23,29 +18,29 @@ const StrokeWidth = ({ setEditOptions, strokeType }: Props) => {
       <div className="flex gap-2">
         <button
           className={`w-[30px] h-[30px] flex items-center justify-center bg-[#00000010] rounded-lg hover:bg-[#E0DFFE] 
-          ${strokeType=="semiBold"&&"bg-[#E0DFFE]"}`}
+          ${storkWidth==1 &&"bg-[#E0DFFE]"}`}
           title="semi bold"
           name="semiBold"
-          onClick={(e:any)=>{handleStrokeChange(e,2)}}
+          onClick={(e:any)=>{handleStrokeChange(e,1)}}
         >
           <div className="w-[12px] h-[2px] bg-black rounded" />
         </button>
         <button
           className={`w-[30px] h-[30px] flex items-center justify-center bg-[#00000010] rounded-lg hover:bg-[#E0DFFE]
-          ${(strokeType=="bold")&&"bg-[#E0DFFE]"}`}
+          ${(storkWidth==2)&&"bg-[#E0DFFE]"}`}
           title="bold"
           name="bold"
-          onClick={(e)=>{handleStrokeChange(e,4)}}
+          onClick={(e)=>{handleStrokeChange(e,2)}}
 
         >
           <div className="w-[12px] h-[4px] bg-black rounded " />
         </button>
         <button
           className={`w-[30px] h-[30px] flex items-center justify-center bg-[#00000010] rounded-lg hover:bg-[#E0DFFE] 
-          ${strokeType=="extraBold"&&"bg-[#E0DFFE]"}`}
+          ${storkWidth==4 &&"bg-[#E0DFFE]"}`}
           title="extra bold"
           name="extraBold"
-          onClick={(e)=>{handleStrokeChange(e,6)}}
+          onClick={(e)=>{handleStrokeChange(e,4)}}
         >
           <div className="w-[12px] h-[6px] bg-black rounded " />
         </button>

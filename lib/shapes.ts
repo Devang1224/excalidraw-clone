@@ -11,9 +11,9 @@ export const createRectangle = (pointer:PointerEvent)=>{
          top:pointer.y,
          width: 100,
          height: 100,
-         fill:"#97E7E1",
-         stroke:"black",
-         strokeWidth:2,
+         fill:"transparent",
+         stroke:"#000000",
+         strokeWidth:1,
          rx:5,           
          ry:5,            
          objectId:uuidv4()
@@ -46,7 +46,7 @@ export const createLine = (pointer:PointerEvent,isDrawing:React.MutableRefObject
     [pointer.x, pointer.y, pointer.x, pointer.y],
     {
       stroke: "#000000",
-      strokeWidth: 2,
+      strokeWidth: 1,
       objectId: uuidv4(),
     } as CustomFabricObject<fabric.Line>
   );
@@ -58,7 +58,9 @@ export const createTriangle  = (pointer:PointerEvent)=>{
      top:pointer.y,
      width:100,
      height:100,
-     fill:"#97E7E1",
+     fill:"transparent",
+     stroke:"#000000",
+     strokeWidth:1,
      rx:5,
      ry:5,
      objectId:uuidv4(),
@@ -72,7 +74,9 @@ export const createCircle = (pointer: PointerEvent) => {
       left: pointer.x,
       top: pointer.y,
       radius: 100,
-      fill: "#aabbcc",
+      fill:"transparent",
+      stroke:"#000000",
+      strokeWidth:1,
       objectId: uuidv4(),
     } as any);
 
