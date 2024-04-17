@@ -8,7 +8,7 @@ export const modifyShape = ({selectedShape,canvas,editOptions,syncShapeInStorage
             selectedElement?.set({
               fontFamily: editOptions.fontFamily,
               fontSize:editOptions.fontSize,
-              fill:editOptions.fill
+              fill:editOptions.textColor
             })
           }
        else if(selectedElement?.type=="line"){

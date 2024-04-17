@@ -32,8 +32,8 @@ const EditPannel = ({
     textColor:"black",
     strokeWidth: 2, //  semi-bold:2, bold:4, extra-bold: 6
     layerType: null,
-    fontFamily: "Virgil",
-    fontSize: 16,
+    fontFamily: "Helvetica",
+    fontSize: 36,
   });
 
   useEffect(() => {
