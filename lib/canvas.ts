@@ -77,6 +77,8 @@ if(selectedMode.current == "delete"){
    if(target){
     canvas.remove(target);
     deleteShapeFromStorage(target.objectId);
+    selectedShape.current=null;
+    setEditPannelState(false);
    }
    return;
 }
@@ -218,26 +220,38 @@ export const renderCanvas = ({
 };
 
 
-export const handleCanvasObjectScaling = ({options,syncShapeInStorage,selectedShape}:any)=>{
+export const handleCanvasObjectModified = ({options,syncShapeInStorage}:any)=>{
   
-  const selectedElement = options.target;
-
- // calculate scaled dimensions of the object
- const scaledWidth = selectedElement?.scaleX
- ? selectedElement?.width! * selectedElement?.scaleX
- : selectedElement?.width;
-
-const scaledHeight = selectedElement?.scaleY
- ? selectedElement?.height! * selectedElement?.scaleY
- : selectedElement?.height;
-
-selectedElement?.set({
-  width:scaledWidth,
-  height:scaledHeight,
-  scaleX:1,
-  scaleY:1
-})
-// syncShapeInStorage(selectedElement)
+  const selectedElement = options?.target; // Ensure options and target are defined
 
 
+
+
+  if (selectedElement) {
+
+    if(selectedElement.type != "circle" && selectedElement.type!="i-text"){
+
+     const scaledWidth = selectedElement?.scaleX
+    ? selectedElement?.width! * selectedElement?.scaleX
+    : selectedElement?.width;
+
+  const scaledHeight = selectedElement?.scaleY
+    ? selectedElement?.height! * selectedElement?.scaleY
+    : selectedElement?.height;
+
+    // Set new dimensions and reset scale to 1
+    selectedElement.set({
+      width: scaledWidth,
+      height: scaledHeight,
+      scaleX: 1,
+      scaleY: 1,
+    });
+
+  }
+
+    // Sync changes to storage
+    syncShapeInStorage(selectedElement);
+  }
+
+console.log(options);
 }

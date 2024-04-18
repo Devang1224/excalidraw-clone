@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import StrokeInput from "./ui/StrokeInput";
 import FillColorInput from "./ui/FillColorInput";
 import FillStateInput from "./ui/FillStateInput";
@@ -46,61 +46,66 @@ const EditPannel = ({
     });
   };
 
+
+  const memoizedContent = useMemo(()=>{
+
+
+    if (editPannelState) {
+      if (editPannelState == "i-text") {
+        return (
+          <div className="flex flex-col z-10 gap-4 absolute top-[80px] left-[20px] bg-white border rounded-md shadow-md p-2">
+               <TextColorInput
+                 editOptions={editOptions}
+                 handleInputChange={handleInputChange}
+               />
   
-  if (editPannelState) {
-    if (editPannelState == "i-text") {
-      return (
-        <div className="flex flex-col z-10 gap-4 absolute top-[80px] left-[20px] bg-white border rounded-md shadow-md p-2">
-             <TextColorInput
-               editOptions={editOptions}
-               handleInputChange={handleInputChange}
-             />
-
-          <FontSizeInput
-            fontSize={editOptions.fontSize}
-            handleInputChange={handleInputChange}
-
-          />
-          <FontFamilyInput
-            fontFamily={editOptions.fontSize}
-            handleInputChange={handleInputChange}
-          />
-          <LayerInput
-            handleInputChange={handleInputChange}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <div className="flex flex-col z-10 gap-4 absolute top-[80px] left-[20px] bg-white border rounded-md shadow-md p-2">
-          <StrokeInput
-            editOptions={editOptions}
-            handleInputChange={handleInputChange}
-
-          />
-          {selectedShape.current?.type != "line" &&
-            selectedShape.current?.type != "image" && (
-              <FillColorInput
-                editOptions={editOptions}
+            <FontSizeInput
+              fontSize={editOptions.fontSize}
+              handleInputChange={handleInputChange}
+  
+            />
+            <FontFamilyInput
+              fontFamily={editOptions.fontSize}
+              handleInputChange={handleInputChange}
+            />
+            <LayerInput
+              handleInputChange={handleInputChange}
+            />
+          </div>
+        );
+      } else {
+        return (
+          <div className="flex flex-col z-10 gap-4 absolute top-[80px] left-[20px] bg-white border rounded-md shadow-md p-2">
+            <StrokeInput
+              editOptions={editOptions}
+              handleInputChange={handleInputChange}
+  
+            />
+            {selectedShape.current?.type != "line" &&
+              selectedShape.current?.type != "image" && (
+                <FillColorInput
+                  editOptions={editOptions}
+                  handleInputChange={handleInputChange}
+  
+                />
+              )}
+            {selectedShape.current?.type != "image" && (
+              <StrokeWidth
                 handleInputChange={handleInputChange}
-
+                strokeWidth={editOptions.strokeWidth}
               />
             )}
-          {selectedShape.current?.type != "image" && (
-            <StrokeWidth
+            <LayerInput
               handleInputChange={handleInputChange}
-              strokeWidth={editOptions.strokeWidth}
             />
-          )}
-          <LayerInput
-            handleInputChange={handleInputChange}
-          />
-        </div>
-      );
-    }
-  } else {
-    return;
-  }
+          </div>
+        );
+      }
+    } 
+  },[editOptions,editPannelState])
+  
+  return memoizedContent;
+  
 };
 
 export default EditPannel;

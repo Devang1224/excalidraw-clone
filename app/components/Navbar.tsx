@@ -13,7 +13,15 @@ interface Props{
   shapeRef:React.MutableRefObject<fabric.Object | null>,
 }
 
-const Navbar = ({selectedMode,fabricRef,shapeRef,setSelectedModeState,selectedModeState}:Props) => {
+
+const Navbar = (
+  {
+   selectedMode,
+   fabricRef,
+   shapeRef,
+   setSelectedModeState,
+   selectedModeState,
+  }:Props) => {
 
   return (
 

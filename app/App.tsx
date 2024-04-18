@@ -3,7 +3,7 @@
 import Navbar from "./components/Navbar";
 import Canvas from "./components/Canvas";
 import {useEffect, useRef, useState } from "react";
-import { handleCanvasObjectScaling, handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, handleSelectionCreated, initializeFabric, renderCanvas } from "@/lib/canvas";
+import { handleCanvasObjectModified, handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, handleSelectionCreated, initializeFabric, renderCanvas } from "@/lib/canvas";
 import {
   useMutation,
   useMyPresence,
@@ -23,7 +23,7 @@ export default function Home() {
   const [selectedModeState,setSelectedModeState] = useState<SelectedMode>("cursor"); // for Nav Buttons only 
   const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
   const selectedShape = useRef<fabric.Object | null>(null)
-  const [editPannelState,setEditPannelState] = useState<string | boolean>(false);
+  const [editPannelState,setEditPannelState] = useState<string | boolean>(false);  // to store the type of object and to trigger active pannel
 
   const [editOptions, setEditOptions] = useState<EditOptions>({
     stroke: "#000000",
@@ -64,7 +64,7 @@ export default function Home() {
       canvasRef,
       fabricRef,
     });
-    
+    // canvas.perPixelTargetFind = true;
     canvas.on("mouse:down", (options) => {
       handleOnMouseDown({
         canvas,
@@ -108,11 +108,11 @@ export default function Home() {
     })
 
 
-    canvas.on("object:scaling", (options) => {
-      handleCanvasObjectScaling({
+    canvas.on("object:modified", (options) => {
+
+      handleCanvasObjectModified({
         options,
         syncShapeInStorage,
-        selectedShape
       });
     });
 
