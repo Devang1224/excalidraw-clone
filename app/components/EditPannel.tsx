@@ -103,4 +103,4 @@ const EditPannel = ({
   }
 };
 
-export default React.memo(EditPannel);
+export default EditPannel;
