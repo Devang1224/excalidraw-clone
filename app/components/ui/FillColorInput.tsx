@@ -7,17 +7,17 @@ import { BlockPicker } from "react-color";
 //   strokeColor: string;
 //   setStrokeColor: (color: string) => void;
 // }
-const FillColorInput = ({ editOptions, setEditOptions }: any) => {
+const FillColorInput = ({ editOptions, setEditOptions,handleInputChange }: any) => {
 
   const [pickerActive, setPickerActive] = useState<boolean>(false);
 
   const handleSetFillColor = (color: string) => {
-    setEditOptions((prev:any)=>({...prev,fill:color}));
+    handleInputChange("fill",color)
     setPickerActive(false);
   };
 
 const OnChangeColorPicker = (color:any)=>{
-    setEditOptions((prev:any)=>({...prev,fill:color.hex}))
+  handleInputChange("fill",color.hex);
     setPickerActive(false);
 }
 

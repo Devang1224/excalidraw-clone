@@ -3,7 +3,7 @@
 import Navbar from "./components/Navbar";
 import Canvas from "./components/Canvas";
 import {useEffect, useRef, useState } from "react";
-import { handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, initializeFabric, renderCanvas } from "@/lib/canvas";
+import { handleCanvasObjectScaling, handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, handleSelectionCreated, initializeFabric, renderCanvas } from "@/lib/canvas";
 import {
   useMutation,
   useMyPresence,
@@ -11,7 +11,7 @@ import {
   useStorage,
 } from "@/liveblocks.config";
 import LiveCursors from "./components/cursor/LiveCursors";
-import { LineObject, SelectedMode } from "@/types/types";
+import { EditOptions, LineObject, SelectedMode } from "@/types/types";
 import EditPannel from "./components/EditPannel";
 
 export default function Home() {
@@ -24,6 +24,15 @@ export default function Home() {
   const shapeRef = useRef<fabric.Object | null>(null);  // to update the shapes
   const selectedShape = useRef<fabric.Object | null>(null)
   const [editPannelState,setEditPannelState] = useState<string | boolean>(false);
+
+  const [editOptions, setEditOptions] = useState<EditOptions>({
+    stroke: "#000000",
+    fill: "transparent",
+    textColor:"#000000",
+    strokeWidth: 1, //  thin:1, semi-bold:2, extra-bold: 4
+    fontFamily: "Helvetica",
+    fontSize: 36,
+  });
 
   // to use liveblocks storage
   const canvasObjects = useStorage((root) => root.canvasObjects);
@@ -69,6 +78,7 @@ export default function Home() {
         setEditPannelState,
         deleteShapeFromStorage,
         syncShapeInStorage,
+        setEditOptions,
       });
     });
 
@@ -98,6 +108,15 @@ export default function Home() {
     })
 
 
+    canvas.on("object:scaling", (options) => {
+      handleCanvasObjectScaling({
+        options,
+        syncShapeInStorage,
+        selectedShape
+      });
+    });
+
+
 console.log("rendering");
   }, [canvasRef]);  // run this only once when the component mounts
 
@@ -125,6 +144,8 @@ console.log("rendering");
        selectedModeState={selectedModeState}
        selectedShape={selectedShape}
        syncShapeInStorage={syncShapeInStorage}
+       editOptions={editOptions}
+       setEditOptions={setEditOptions}
        />
       <Canvas canvasRef={canvasRef}/>
     </main>

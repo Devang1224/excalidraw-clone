@@ -3,16 +3,16 @@ import ColorCheckBox from "./ColorCheckBox";
 import { StrokeColors } from "@/constants/constants";
 import { BlockPicker } from "react-color";
 
-const StrokeInput = ({ editOptions, setEditOptions }: any) => {
+const StrokeInput = ({ editOptions, setEditOptions,handleInputChange }: any) => {
   const [pickerActive, setPickerActive] = useState<boolean>(false);
 
   const handleSetStrokeColor = (color: string) => {
-    setEditOptions((prev: any) => ({ ...prev, stroke: color }));
+    handleInputChange("stroke",color);
     setPickerActive(false);
   };
 
   const OnChangeColorPicker = (color: any) => {
-    setEditOptions((prev: any) => ({ ...prev, stroke: color.hex }));
+    handleInputChange("stroke",color.hex);
     setPickerActive(false);
   };
   console.log(editOptions.stroke);

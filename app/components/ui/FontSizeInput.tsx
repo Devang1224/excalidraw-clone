@@ -4,12 +4,13 @@ import React from 'react'
 const FontSizeInput = ({
     setEditOptions,
     fontSize,
+    handleInputChange
 }:any) => {
 
 
 const handleOnSizeChange = (e:any)=>{
 const value = e.target.value;
-setEditOptions((prev:any)=>({...prev,fontSize:value}));
+handleInputChange("fontSize",value);
 }
 
 

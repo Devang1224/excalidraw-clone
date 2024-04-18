@@ -7,20 +7,19 @@ import { BlockPicker } from "react-color";
 //   strokeColor: string;
 //   setStrokeColor: (color: string) => void;
 // }
-const TextColorInput = ({ editOptions, setEditOptions}: any) => {
+const TextColorInput = ({ editOptions, setEditOptions, handleInputChange}: any) => {
 
   const [pickerActive, setPickerActive] = useState<boolean>(false);
 
   const handleSetTextColor = (color: string) => {
-    setEditOptions((prev:any)=>({...prev,textColor:color}));
+     handleInputChange("textColor",color);
     setPickerActive(false);
   };
 
 const OnChangeColorPicker = (color:any)=>{
-    setEditOptions((prev:any)=>({...prev,textColor:color.hex}))
+  handleInputChange("textColor",color.hex);
     setPickerActive(false);
 }
-
 
 
   return (
@@ -55,7 +54,7 @@ const OnChangeColorPicker = (color:any)=>{
           className={` w-[20px] h-[20px] rounded-md ml-2 ${
             pickerActive && "outline"
           } outline-offset-1 outline-[#6565f5]`}
-          style={{ backgroundColor: editOptions.fill }}
+          style={{ backgroundColor: editOptions.textColor }}
           onClick={() => setPickerActive(true)}
         />
       )}
@@ -63,7 +62,7 @@ const OnChangeColorPicker = (color:any)=>{
       {pickerActive && (
         <div className="absolute translate-x-[100%] right-[-20px]">
           <BlockPicker
-            color={editOptions.fill}
+            color={editOptions.textColor}
             onChange={OnChangeColorPicker}
           />
         </div>

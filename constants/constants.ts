@@ -73,7 +73,7 @@ export const FillColors=[
 ]
 
 export const TextColors= [
-    "#000000",
+    "#000",
     "#ffc9c9",
     "#b2f2bb",
     "#a5d8ff",

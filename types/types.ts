@@ -15,9 +15,9 @@ export type SelectedMode = "hand" | "cursor" | "rect" | "circle" |
 
 export type SelectedLayer = null | "Up" | 'Down' | "Bottom" | "Top";
 
-export type SelectedStroke = "semiBold" | "bold" | "extraBold";
 
-export type FontFamilyType = "Helvetica" | "Virgil" | "Cascadia"
+
+export type FontFamilyType = "Helvetica" | "Virgil" | "Cascadia" |"Comic Sans MS" | "Poppins"
 
 
 
@@ -26,7 +26,6 @@ export interface EditOptions {
   fill:string,
   textColor:string,
   strokeWidth:number,
-  layerType:SelectedLayer,
   fontFamily:FontFamilyType,
   fontSize:number,
 }
@@ -49,6 +48,7 @@ export type HandleOnMouseDown = {
   setSelectedModeState:(mode:SelectedMode)=>void,
   deleteShapeFromStorage:(id: string) => void,
   syncShapeInStorage: (shape: fabric.Object) => void;
+  setEditOptions: React.Dispatch<React.SetStateAction<EditOptions>>;
 }
 
 export type HandleOnMouseMove={

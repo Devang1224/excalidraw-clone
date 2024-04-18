@@ -16,6 +16,8 @@ interface Props {
   selectedShape: React.MutableRefObject<fabric.Object | null>;
   canvas: fabric.Canvas;
   syncShapeInStorage: (shape: fabric.Object) => void;
+  editOptions:EditOptions;
+  setEditOptions:any;
 }
 
 const EditPannel = ({
@@ -23,29 +25,26 @@ const EditPannel = ({
   editPannelState,
   selectedModeState,
   selectedShape,
-  syncShapeInStorage
+  syncShapeInStorage,
+  editOptions,
+  setEditOptions,
 }: Props) => {
 
-  const [editOptions, setEditOptions] = useState<EditOptions>({
-    stroke: "#000000",
-    fill: "transparent",
-    textColor:"black",
-    strokeWidth: 2, //  semi-bold:2, bold:4, extra-bold: 6
-    layerType: null,
-    fontFamily: "Helvetica",
-    fontSize: 36,
-  });
+ 
 
-  useEffect(() => {
+  const handleInputChange = (property: string, value: string) => {
+    
+
+    setEditOptions((prev : any) => ({ ...prev, [property]: value }));
 
     modifyShape({
-      selectedShape: selectedShape.current,
-      canvas,
-      editOptions,
+      canvas: canvas,
+      property,
+      value,
+      selectedShape,
       syncShapeInStorage,
     });
-
-  }, [editOptions]);
+  };
 
   
   if (editPannelState) {
@@ -53,21 +52,21 @@ const EditPannel = ({
       return (
         <div className="flex flex-col z-10 gap-4 absolute top-[80px] left-[20px] bg-white border rounded-md shadow-md p-2">
              <TextColorInput
-             editOptions={editOptions}
-             setEditOptions={setEditOptions}
+               editOptions={editOptions}
+               handleInputChange={handleInputChange}
              />
 
           <FontSizeInput
-            setEditOptions={setEditOptions}
             fontSize={editOptions.fontSize}
+            handleInputChange={handleInputChange}
+
           />
           <FontFamilyInput
-            setEditOptions={setEditOptions}
             fontFamily={editOptions.fontSize}
+            handleInputChange={handleInputChange}
           />
           <LayerInput
-            setEditOptions={setEditOptions}
-            layerType={editOptions.layerType}
+            handleInputChange={handleInputChange}
           />
         </div>
       );
@@ -76,24 +75,25 @@ const EditPannel = ({
         <div className="flex flex-col z-10 gap-4 absolute top-[80px] left-[20px] bg-white border rounded-md shadow-md p-2">
           <StrokeInput
             editOptions={editOptions}
-            setEditOptions={setEditOptions}
+            handleInputChange={handleInputChange}
+
           />
           {selectedShape.current?.type != "line" &&
             selectedShape.current?.type != "image" && (
               <FillColorInput
                 editOptions={editOptions}
-                setEditOptions={setEditOptions}
+                handleInputChange={handleInputChange}
+
               />
             )}
           {selectedShape.current?.type != "image" && (
             <StrokeWidth
-              setEditOptions={setEditOptions}
+              handleInputChange={handleInputChange}
               strokeWidth={editOptions.strokeWidth}
             />
           )}
           <LayerInput
-            setEditOptions={setEditOptions}
-            layerType={editOptions.layerType}
+            handleInputChange={handleInputChange}
           />
         </div>
       );

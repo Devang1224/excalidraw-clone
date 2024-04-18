@@ -39,7 +39,8 @@ export function handleOnMouseDown({
     setEditPannelState,
     setSelectedModeState,
     deleteShapeFromStorage,
-    syncShapeInStorage
+    syncShapeInStorage,
+    setEditOptions
 }:HandleOnMouseDown){ 
 
 
@@ -53,6 +54,7 @@ if(selectedMode.current == "cursor"){
       {
         selectedShape.current = target;
         setEditPannelState(target.type);
+        handleSelectionCreated({target,setEditOptions})
       }else {
          setEditPannelState(false);
       }
@@ -83,7 +85,6 @@ if(selectedMode.current == "delete"){
 if(selectedMode.current=="image"){
    selectedMode.current="cursor";
    setSelectedModeState("cursor");
-   return;
 }
 else{
     canvas.isDrawingMode = false;
@@ -101,8 +102,6 @@ else{
 
 
 ////////////// mouse move   ////////
-
-
 export function handleOnMouseMove({
     isDrawing,
     selectedMode,
@@ -153,14 +152,34 @@ if(selectedMode.current=="line"  && isDrawing.current){
    isDrawing.current = false; // canceling the line drawing state once mouse is up
    selectedMode.current="cursor"    
    setSelectedModeState("cursor")
-   console.log(shapeRef.current);
    return;
 }
-if(selectedMode.current!=="freedraw"){
+if(selectedMode.current!=="freedraw" && selectedMode.current!="delete"){
   selectedMode.current="cursor"    
   setSelectedModeState("cursor")
 }
  
+}
+
+export const handleSelectionCreated = ({
+  target,
+  setEditOptions
+}:any)=>{
+
+  setEditOptions({
+
+    fill: target?.fill?.toString() || "transparent",
+    stroke: target?.stroke || "#000000",
+    // @ts-ignore
+    fontSize: target?.fontSize || 36,
+    // @ts-ignore
+    fontFamily: target?.fontFamily || "Helvetica",
+    // @ts-ignore
+    strokeWidth:target?.strokeWidth || 1,
+    textColor:target?.fill?.toString() || "#000000",
+
+  });
+
 }
 
 
@@ -197,3 +216,28 @@ export const renderCanvas = ({
 
   fabricRef.current?.renderAll();
 };
+
+
+export const handleCanvasObjectScaling = ({options,syncShapeInStorage,selectedShape}:any)=>{
+  
+  const selectedElement = options.target;
+
+ // calculate scaled dimensions of the object
+ const scaledWidth = selectedElement?.scaleX
+ ? selectedElement?.width! * selectedElement?.scaleX
+ : selectedElement?.width;
+
+const scaledHeight = selectedElement?.scaleY
+ ? selectedElement?.height! * selectedElement?.scaleY
+ : selectedElement?.height;
+
+selectedElement?.set({
+  width:scaledWidth,
+  height:scaledHeight,
+  scaleX:1,
+  scaleY:1
+})
+// syncShapeInStorage(selectedElement)
+
+
+}

@@ -1,14 +1,14 @@
-import { EditOptions, SelectedStroke } from "@/types/types";
+import { EditOptions } from "@/types/types";
 import React, { useState } from "react";
 
 
-const StrokeWidth = ({ setEditOptions, storkWidth }: any) => {
+const StrokeWidth = ({ setEditOptions, strokeWidth,handleInputChange }: any) => {
 
 
 
   const handleStrokeChange = (e:any,value:number) => {
 
-   setEditOptions((prev:any)=>({...prev,strokeWidth:value}))
+    handleInputChange("strokeWidth",value);
   };
 
   return (
@@ -18,7 +18,7 @@ const StrokeWidth = ({ setEditOptions, storkWidth }: any) => {
       <div className="flex gap-2">
         <button
           className={`w-[30px] h-[30px] flex items-center justify-center bg-[#00000010] rounded-lg hover:bg-[#E0DFFE] 
-          ${storkWidth==1 &&"bg-[#E0DFFE]"}`}
+          ${strokeWidth==1 &&"bg-[#E0DFFE]"}`}
           title="semi bold"
           name="semiBold"
           onClick={(e:any)=>{handleStrokeChange(e,1)}}
@@ -27,7 +27,7 @@ const StrokeWidth = ({ setEditOptions, storkWidth }: any) => {
         </button>
         <button
           className={`w-[30px] h-[30px] flex items-center justify-center bg-[#00000010] rounded-lg hover:bg-[#E0DFFE]
-          ${(storkWidth==2)&&"bg-[#E0DFFE]"}`}
+          ${(strokeWidth==2)&&"bg-[#E0DFFE]"}`}
           title="bold"
           name="bold"
           onClick={(e)=>{handleStrokeChange(e,2)}}
@@ -37,7 +37,7 @@ const StrokeWidth = ({ setEditOptions, storkWidth }: any) => {
         </button>
         <button
           className={`w-[30px] h-[30px] flex items-center justify-center bg-[#00000010] rounded-lg hover:bg-[#E0DFFE] 
-          ${storkWidth==4 &&"bg-[#E0DFFE]"}`}
+          ${strokeWidth==4 &&"bg-[#E0DFFE]"}`}
           title="extra bold"
           name="extraBold"
           onClick={(e)=>{handleStrokeChange(e,4)}}

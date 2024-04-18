@@ -1,11 +1,11 @@
 import { FontFamilyData } from '@/constants/constants'
 import React from 'react'
 
-const FontFamilyInput = ({setEditOptions,fontFamily}:any) => {
+const FontFamilyInput = ({setEditOptions,fontFamily,handleInputChange}:any) => {
 
 const handleOnStyleChange = (value:string)=>{
 
-    setEditOptions((prev:any)=>({...prev,fontFamily:value}));
+  handleInputChange("fontFamily",value);
     
 }
 

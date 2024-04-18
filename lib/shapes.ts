@@ -110,7 +110,7 @@ export const createSpecificShape = (
       case 'line':
          return createLine(pointer,isDrawing);
       case 'text':
-        return createText(pointer,"Enter text...");
+        return createText(pointer,"Tap to type");
       default :
       return null;
 }

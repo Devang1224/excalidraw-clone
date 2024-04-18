@@ -9,11 +9,9 @@ import { LayerButtons } from '@/constants/constants'
 
 
 
-const LayerInput = ({setEditOptions,layerType}:any) => {
+const LayerInput = ({setEditOptions,handleInputChange}:any) => {
 
 const handleLayerChange = (e:any)=>{
-const name = e.target.name;
-setEditOptions((prev:any)=>({...prev,layerType:name}));
 }
 
 
