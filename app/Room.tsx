@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import { RoomProvider } from "../liveblocks.config";
 import { ClientSideSuspense } from "@liveblocks/react";
-import { LiveMap } from "@liveblocks/client";
+import { LiveList, LiveMap } from "@liveblocks/client";
 
 export function Room({ children }: { children: ReactNode }) {
   return (
@@ -11,7 +11,7 @@ export function Room({ children }: { children: ReactNode }) {
      id="my-room"
      initialPresence={{cursor:null,cursorColor:null}}
      initialStorage={{
-      canvasObjects:new LiveMap()
+      canvasObjects:new LiveList()
     }}
     >
       <ClientSideSuspense fallback={<div>Loading…</div>}>

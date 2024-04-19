@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "./components/Navbar";
-import Canvas from "./components/Canvas";
+import Navbar from "../components/Navbar";
+import Canvas from "../components/Canvas";
 import {useEffect, useRef, useState } from "react";
 import { handleCanvasObjectModified, handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, handlePathCreated, handleSelectionCreated, initializeFabric, renderCanvas } from "@/lib/canvas";
 import {
@@ -10,9 +10,9 @@ import {
   useOthers,
   useStorage,
 } from "@/liveblocks.config";
-import LiveCursors from "./components/cursor/LiveCursors";
-import { EditOptions, LineObject, SelectedMode } from "@/types/types";
-import EditPannel from "./components/EditPannel";
+import LiveCursors from "../components/cursor/LiveCursors";
+import { EditOptions, LineObject, SelectedLayer, SelectedMode } from "@/types/types";
+import EditPannel from "../components/EditPannel";
 
 export default function Home() {
   
@@ -35,31 +35,76 @@ export default function Home() {
   });
 
   // to use liveblocks storage
-  const canvasObjects = useStorage((root) => root.canvasObjects);
+  const canvasObjects = useStorage((root) => root.canvasObjects); 
 
   
-  const syncShapeInStorage = useMutation(({ storage }, object) => {
+  const syncShapeInStorage = useMutation(({ storage }, object,layerType:SelectedLayer=null) => {
 
     if (!object) return;
-    
-    const canvasObjects = storage.get("canvasObjects");
-  
 
       const { objectId } = object;
 
      const shapeData = object.toJSON();
     shapeData.objectId = objectId;
 
-    canvasObjects.set(objectId, shapeData); 
+    const shapes = storage.get("canvasObjects");
 
+
+     const index = shapes.findIndex((item)=>item.objectId==objectId)
+
+     if(layerType && index>-1){
+  
+        switch(layerType){
+          case "Top":
+            shapes.delete(index);
+            shapes.push(shapeData);
+            break;
+          case "Bottom":
+            shapes.delete(index);
+            shapes.insert(shapeData,0);
+            break;
+          case "Down":
+            if(index!=0){
+              shapes.move(index,index-1);
+            }
+            break;
+          case "Up":
+            if(index!=shapes.length-1){
+               shapes.move(index,index+1);
+            }
+            break;
+        }
+
+console.log(layerType);
+     }
+     else{
+
+     // if the element is already present 
+      if(index>-1){
+        shapes.set(index,shapeData);
+      }
+      else{  // if the element is not present
+        if(shapes){
+           shapes.push(shapeData);
+           shapes.toArray();
+         }
+      }
+     }
+
+    
 
   }, []);
 
 
   const deleteShapeFromStorage = useMutation(({ storage }, shapeId) => {
-    const canvasObjects = storage.get("canvasObjects");
-    console.log(canvasObjects);
-    canvasObjects.delete(shapeId);
+    const shapes = storage.get("canvasObjects");
+
+    const index = shapes.findIndex((item)=>item.objectId==shapeId)
+    if(index>-1){
+      shapes.delete(index);
+    }
+     
+  
   }, []);
 
   useEffect(() => {

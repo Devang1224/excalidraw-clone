@@ -166,17 +166,17 @@ export const updateStackOfElement = ({
   if (!selectedShape.current || selectedShape.current?.type === "activeSelection") return;
 
   // bring the selected element to the front
-  if (type === "Top") {
-    canvas.bringToFront(selectedShape.current);
-  } else if (type === "Bottom") {
-    canvas.sendToBack(selectedShape.current);
-  }else if(type=="Up"){
-    canvas.bringForward(selectedShape.current)
-  }else{
-    canvas.sendBackwards(selectedShape.current)
-  }
-canvas.renderAll();
-  // syncShapeInStorage(selectedShape.current);
+  // if (type === "Top") {
+  //   canvas.bringToFront(selectedShape.current);
+  // } else if (type === "Bottom") {
+  //   canvas.sendToBack(selectedShape.current);
+  // }else if(type=="Up"){
+  //   canvas.bringForward(selectedShape.current)
+  // }else{
+  //   canvas.sendBackwards(selectedShape.current)
+  // }
+// canvas.renderAll();
+  syncShapeInStorage(selectedShape.current,type);
 
 }
 

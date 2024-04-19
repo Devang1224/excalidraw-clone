@@ -48,6 +48,7 @@ const pointer = canvas.getPointer(options.e);  // to get pointer coordinates
 const target = canvas.findTarget(options.e,false); 
 
 console.log("target: ",target);
+console.log("mode:",selectedMode)
 
 if(selectedMode.current == "cursor"){
     if(target && target.type!="activeSelection")
@@ -193,16 +194,16 @@ export const renderCanvas = ({
   fabricRef.current?.clear();
 
   // render all objects on canvas
-  Array.from(canvasObjects, ([objectId, objectData]) => {
+ canvasObjects.forEach((item:any)=>{
 
     //  enlivenObjects: http://fabricjs.com/docs/fabric.util.html#.enlivenObjectEnlivables
 
     fabric.util.enlivenObjects(
-      [objectData],
+      [item],
       (enlivenedObjects: fabric.Object[]) => {
         enlivenedObjects.forEach((enlivenedObj) => {
           // if element is active, keep it in active state so that it can be edited further
-          if (selectedShape.current?.objectId === objectId) {
+          if (selectedShape.current?.objectId === item.objectId) {
             fabricRef.current?.setActiveObject(enlivenedObj);
           }
 
@@ -221,9 +222,9 @@ export const renderCanvas = ({
 export const handleCanvasObjectModified = ({options,syncShapeInStorage}:any)=>{
   
   const selectedElement = options?.target; // Ensure options and target are defined
+  console.log(selectedElement);
 
   if (selectedElement && selectedElement.type!="activeSelection") {
-
     if( selectedElement.type != "circle" && 
         selectedElement.type!="i-text" && 
         selectedElement.type!="image" &&
