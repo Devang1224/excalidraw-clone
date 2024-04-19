@@ -132,7 +132,7 @@ export const handleImageUpload = ({
 }: ImageUpload) => {
   const reader = new FileReader();
 
-console.log("reading");
+("reading");
 
   reader.onload = () => {
     
@@ -145,7 +145,9 @@ console.log("reading");
       canvas.current.add(img)
 
       shapeRef.current = img;
+
       syncShapeInStorage(img);
+
       canvas.current.requestRenderAll();
     });
   };
@@ -161,21 +163,8 @@ export const updateStackOfElement = ({
   syncShapeInStorage
 }:any)=>{
 
-
-
   if (!selectedShape.current || selectedShape.current?.type === "activeSelection") return;
 
-  // bring the selected element to the front
-  // if (type === "Top") {
-  //   canvas.bringToFront(selectedShape.current);
-  // } else if (type === "Bottom") {
-  //   canvas.sendToBack(selectedShape.current);
-  // }else if(type=="Up"){
-  //   canvas.bringForward(selectedShape.current)
-  // }else{
-  //   canvas.sendBackwards(selectedShape.current)
-  // }
-// canvas.renderAll();
   syncShapeInStorage(selectedShape.current,type);
 
 }

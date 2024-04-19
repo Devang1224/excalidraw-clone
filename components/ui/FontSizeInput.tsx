@@ -9,8 +9,10 @@ const FontSizeInput = ({
 
 
 const handleOnSizeChange = (e:any)=>{
+
 const value = e.target.value;
 handleInputChange("fontSize",value);
+
 }
 
 

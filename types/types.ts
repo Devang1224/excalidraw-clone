@@ -16,6 +16,9 @@ export type SelectedMode = "hand" | "cursor" | "rect" | "circle" |
 export type SelectedLayer = null | "Up" | 'Down' | "Bottom" | "Top";
 
 
+//  thin:1, semi-bold:2, extra-bold: 4
+type StrokeWidth = 1 | 2 | 4;
+
 
 export type FontFamilyType = "Helvetica" |"Comic Sans MS" | "Monospace"
 
@@ -25,7 +28,7 @@ export interface EditOptions {
   stroke:string,
   fill:string,
   textColor:string,
-  strokeWidth:number,
+  strokeWidth:StrokeWidth,
   fontFamily:FontFamilyType,
   fontSize:number,
 }
@@ -70,4 +73,37 @@ export type HandleOnMouseUp={
   shapeRef:React.MutableRefObject<fabric.Object | null>,
   setSelectedModeState:(mode:SelectedMode)=>void,
   syncShapeInStorage: (shape: fabric.Object) => void;
+}
+
+export type NavBarProps={
+  selectedMode:React.MutableRefObject<SelectedMode>,
+  setSelectedModeState:(mode:SelectedMode)=>void,
+  selectedModeState:SelectedMode,
+  fabricRef:React.MutableRefObject<fabric.Canvas | null>,
+  shapeRef:React.MutableRefObject<fabric.Object | null>,
+  syncShapeInStorage: (shape: fabric.Object) => void;
+  setEditPannelState:React.Dispatch<React.SetStateAction<string | boolean>>;
+}
+
+
+export type NavButtonsProps={
+  item:{
+    icon:string,
+    name:string
+  },
+  selectedMode: React.MutableRefObject<SelectedMode>,
+  setSelectedModeState:(mode:SelectedMode)=>void
+  handleImageUpload:(e:React.ChangeEvent<HTMLInputElement>)=>void,
+  selectedModeState:SelectedMode,
+  setEditPannelState:React.Dispatch<React.SetStateAction<string | boolean>>;
+}
+
+export type EditPannelProps={
+  editPannelState: string | boolean;
+  selectedModeState: SelectedMode;
+  selectedShape: React.MutableRefObject<fabric.Object | null>;
+  canvas: fabric.Canvas;
+  syncShapeInStorage: (shape: fabric.Object) => void;
+  editOptions: EditOptions;
+  setEditOptions: any;
 }

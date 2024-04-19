@@ -15,7 +15,7 @@ const StrokeInput = ({ editOptions, setEditOptions,handleInputChange }: any) => 
     handleInputChange("stroke",color.hex);
     setPickerActive(false);
   };
-  console.log(editOptions.stroke);
+
 
   return (
     <div className="flex flex-col gap-2">

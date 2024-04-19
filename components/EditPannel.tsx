@@ -4,21 +4,13 @@ import FillColorInput from "./ui/FillColorInput";
 import FillStateInput from "./ui/FillStateInput";
 import StrokeWidth from "./ui/StrokeWidth";
 import LayerInput from "./ui/LayerInput";
-import { EditOptions, SelectedMode } from "@/types/types";
+import { EditOptions, EditPannelProps, SelectedMode } from "@/types/types";
 import FontSizeInput from "./ui/FontSizeInput";
 import FontFamilyInput from "./ui/FontFamilyInput";
 import { modifyShape } from "@/lib/modifyElement";
 import TextColorInput from "./ui/TextColorInput";
 
-interface Props {
-  editPannelState: string | boolean;
-  selectedModeState: SelectedMode;
-  selectedShape: React.MutableRefObject<fabric.Object | null>;
-  canvas: fabric.Canvas;
-  syncShapeInStorage: (shape: fabric.Object) => void;
-  editOptions: EditOptions;
-  setEditOptions: any;
-}
+
 
 const EditPannel = ({
   canvas,
@@ -28,7 +20,7 @@ const EditPannel = ({
   syncShapeInStorage,
   editOptions,
   setEditOptions,
-}: Props) => {
+}: EditPannelProps) => {
 
   const handleInputChange = (property: string, value: string) => {
 

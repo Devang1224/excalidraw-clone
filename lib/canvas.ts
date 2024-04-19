@@ -43,12 +43,11 @@ export function handleOnMouseDown({
     setEditOptions
 }:HandleOnMouseDown){ 
 
-console.log(canvas);
+
 const pointer = canvas.getPointer(options.e);  // to get pointer coordinates
 const target = canvas.findTarget(options.e,false); 
 
-console.log("target: ",target);
-console.log("mode:",selectedMode)
+
 
 if(selectedMode.current == "cursor"){
     if(target && target.type!="activeSelection")
@@ -222,7 +221,6 @@ export const renderCanvas = ({
 export const handleCanvasObjectModified = ({options,syncShapeInStorage}:any)=>{
   
   const selectedElement = options?.target; // Ensure options and target are defined
-  console.log(selectedElement);
 
   if (selectedElement && selectedElement.type!="activeSelection") {
     if( selectedElement.type != "circle" && 
