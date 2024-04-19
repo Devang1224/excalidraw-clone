@@ -13,7 +13,9 @@ interface Props{
   selectedMode: React.MutableRefObject<SelectedMode>,
   setSelectedModeState:(mode:SelectedMode)=>void
   handleImageUpload:(e:React.ChangeEvent<HTMLInputElement>)=>void,
-  selectedModeState:SelectedMode
+  selectedModeState:SelectedMode,
+  setEditPannelState:React.Dispatch<React.SetStateAction<string | boolean>>;
+
 
 }
 
@@ -23,13 +25,20 @@ const NavButtons = ({
    handleImageUpload,
    setSelectedModeState,
    selectedModeState,
+   setEditPannelState
   }:Props ) => {
 
 
   const handleDrawingMode = () =>{
          selectedMode.current = item.name as SelectedMode;
         setSelectedModeState(item.name as SelectedMode)
+
+        if(selectedMode.current!="cursor"){
+          setEditPannelState(false)
+        }
   }
+
+
 
 
 if(item.name!="image") {

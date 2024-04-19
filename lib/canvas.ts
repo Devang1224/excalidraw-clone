@@ -43,7 +43,7 @@ export function handleOnMouseDown({
     setEditOptions
 }:HandleOnMouseDown){ 
 
-
+console.log(canvas);
 const pointer = canvas.getPointer(options.e);  // to get pointer coordinates
 const target = canvas.findTarget(options.e,false); 
 
@@ -62,7 +62,6 @@ if(selectedMode.current == "cursor"){
     canvas.selection = true; // to enable group selection
     canvas.selectionColor = 'rgba(0,0,0,0)'; 
     canvas.selectionBorderColor = 'blue'; 
-    canvas.preserveObjectStacking = true;
     return;
 }
 
@@ -78,7 +77,6 @@ if(selectedMode.current == "delete"){
     canvas.remove(target);
     deleteShapeFromStorage(target.objectId);
     selectedShape.current=null;
-    setEditPannelState(false);
    }
    return;
 }
@@ -224,12 +222,13 @@ export const handleCanvasObjectModified = ({options,syncShapeInStorage}:any)=>{
   
   const selectedElement = options?.target; // Ensure options and target are defined
 
+  if (selectedElement && selectedElement.type!="activeSelection") {
 
-
-
-  if (selectedElement) {
-
-    if(selectedElement.type != "circle" && selectedElement.type!="i-text"){
+    if( selectedElement.type != "circle" && 
+        selectedElement.type!="i-text" && 
+        selectedElement.type!="image" &&
+        selectedElement.type!="path" 
+      ){
 
      const scaledWidth = selectedElement?.scaleX
     ? selectedElement?.width! * selectedElement?.scaleX
@@ -253,5 +252,20 @@ export const handleCanvasObjectModified = ({options,syncShapeInStorage}:any)=>{
     syncShapeInStorage(selectedElement);
   }
 
-console.log(options);
+}
+
+export const handlePathCreated = ({
+  options,
+  syncShapeInStorage
+}:any)=>{
+
+  const path = options.path;
+  if (!path) return;
+
+  path.set({
+    objectId: uuidv4(),
+  });
+
+  syncShapeInStorage(path);
+   
 }

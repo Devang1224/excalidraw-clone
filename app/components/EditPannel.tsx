@@ -16,8 +16,8 @@ interface Props {
   selectedShape: React.MutableRefObject<fabric.Object | null>;
   canvas: fabric.Canvas;
   syncShapeInStorage: (shape: fabric.Object) => void;
-  editOptions:EditOptions;
-  setEditOptions:any;
+  editOptions: EditOptions;
+  setEditOptions: any;
 }
 
 const EditPannel = ({
@@ -30,12 +30,9 @@ const EditPannel = ({
   setEditOptions,
 }: Props) => {
 
- 
-
   const handleInputChange = (property: string, value: string) => {
-    
 
-    setEditOptions((prev : any) => ({ ...prev, [property]: value }));
+    setEditOptions((prev: any) => ({ ...prev, [property]: value }));
 
     modifyShape({
       canvas: canvas,
@@ -46,66 +43,64 @@ const EditPannel = ({
     });
   };
 
-
-  const memoizedContent = useMemo(()=>{
-
+  const memoizedContent = useMemo(() => {
 
     if (editPannelState) {
-      if (editPannelState == "i-text") {
+     
         return (
           <div className="flex flex-col z-10 gap-4 absolute top-[80px] left-[20px] bg-white border rounded-md shadow-md p-2">
-               <TextColorInput
-                 editOptions={editOptions}
-                 handleInputChange={handleInputChange}
-               />
-  
-            <FontSizeInput
-              fontSize={editOptions.fontSize}
-              handleInputChange={handleInputChange}
-  
-            />
-            <FontFamilyInput
-              fontFamily={editOptions.fontSize}
-              handleInputChange={handleInputChange}
-            />
-            <LayerInput
-              handleInputChange={handleInputChange}
-            />
-          </div>
-        );
-      } else {
-        return (
-          <div className="flex flex-col z-10 gap-4 absolute top-[80px] left-[20px] bg-white border rounded-md shadow-md p-2">
-            <StrokeInput
-              editOptions={editOptions}
-              handleInputChange={handleInputChange}
-  
-            />
-            {selectedShape.current?.type != "line" &&
-              selectedShape.current?.type != "image" && (
-                <FillColorInput
+         
+            {selectedShape.current?.type != "image" &&
+              selectedShape.current?.type != "i-text" && (
+                <>
+                  <StrokeInput
+                    editOptions={editOptions}
+                    handleInputChange={handleInputChange}
+                  />
+                  
+                  { selectedShape.current?.type!="line" && (
+                       <FillColorInput
+                         editOptions={editOptions}
+                         handleInputChange={handleInputChange}
+                        />
+                       )
+                   }
+                   <StrokeWidth
+                     handleInputChange={handleInputChange}
+                    strokeWidth={editOptions.strokeWidth}
+                   />
+
+                </>
+              )}
+            {selectedShape.current?.type == "i-text" && (
+              <>
+                <TextColorInput
                   editOptions={editOptions}
                   handleInputChange={handleInputChange}
-  
                 />
-              )}
-            {selectedShape.current?.type != "image" && (
-              <StrokeWidth
-                handleInputChange={handleInputChange}
-                strokeWidth={editOptions.strokeWidth}
-              />
+                <FontSizeInput
+                  fontSize={editOptions.fontSize}
+                  handleInputChange={handleInputChange}
+                />
+                <FontFamilyInput
+                  fontFamily={editOptions.fontSize}
+                  handleInputChange={handleInputChange}
+                />
+              </>
             )}
-            <LayerInput
-              handleInputChange={handleInputChange}
+
+            <LayerInput 
+              canvas={canvas}
+              selectedShape={selectedShape}
+              syncShapeInStorage={syncShapeInStorage}
             />
           </div>
         );
-      }
-    } 
-  },[editOptions,editPannelState])
-  
+    }
+
+  }, [editOptions, editPannelState]);
+
   return memoizedContent;
-  
 };
 
 export default EditPannel;

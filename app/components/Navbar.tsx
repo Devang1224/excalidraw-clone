@@ -11,6 +11,9 @@ interface Props{
   selectedModeState:SelectedMode,
   fabricRef:React.MutableRefObject<fabric.Canvas | null>,
   shapeRef:React.MutableRefObject<fabric.Object | null>,
+  syncShapeInStorage: (shape: fabric.Object) => void;
+  setEditPannelState:React.Dispatch<React.SetStateAction<string | boolean>>;
+
 }
 
 
@@ -21,6 +24,9 @@ const Navbar = (
    shapeRef,
    setSelectedModeState,
    selectedModeState,
+   setEditPannelState,
+   syncShapeInStorage,
+
   }:Props) => {
 
   return (
@@ -41,10 +47,11 @@ const Navbar = (
                 file: e.target.files[0],
                 canvas: fabricRef as any,
                 shapeRef,
-                // syncShapeInStorage,
+                syncShapeInStorage,
               });
               e.target.value="";
             }}
+            setEditPannelState={setEditPannelState}
            />
         ))
       }

@@ -1,17 +1,17 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
-import LayerUp from "@/public/assets/icons/LayerUp"
-import LayerDown from "@/public/assets/icons/LayerDown"
-import LayerBottom from "@/public/assets/icons/LayerBottom"
-import LayerTop from "@/public/assets/icons/LayerTop"
 import { SelectedLayer } from '@/types/types'
 import { LayerButtons } from '@/constants/constants'
+import { updateStackOfElement } from '@/lib/shapes'
 
 
 
-const LayerInput = ({setEditOptions,handleInputChange}:any) => {
 
-const handleLayerChange = (e:any)=>{
+const LayerInput = ({canvas,selectedShape,syncShapeInStorage}:any) => {
+
+const handleLayerChange = (type:string)=>{
+
+   updateStackOfElement({canvas,selectedShape,type,syncShapeInStorage})
 }
 
 
@@ -26,9 +26,8 @@ const handleLayerChange = (e:any)=>{
     key={item.id}
     className={`w-[30px] h-[30px] flex items-center justify-center bg-[#00000010] rounded-lg hover:bg-[#E0DFFE]`}
     title={item.title}
-    name={item.name}
-    onClick={handleLayerChange}
-  >
+    onClick={()=>handleLayerChange(item.name)}
+   >
    <item.icon/>
   </button>
   ))

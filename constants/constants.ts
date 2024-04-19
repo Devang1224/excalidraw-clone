@@ -7,10 +7,10 @@ interface navButtonTypes{
 }
 
 export const navButtons:navButtonTypes[] = [
-    {
-        name:"hand",
-        icon:'/assets/icons/hand.svg'
-    },
+    // {
+    //     name:"hand",
+    //     icon:'/assets/icons/hand.svg'
+    // },
     {
         name:"cursor",
         icon:'/assets/icons/cursor.svg'
@@ -85,30 +85,29 @@ export const LayerButtons = [
     id:1,
     name:"Bottom",
     icon:require('@/public/assets/icons/LayerBottom').default,
-    title:"Layer Bottom",
+    title:"To Bottom",
 },
 {
     id:2,
     name:"Down",
     icon:require('@/public/assets/icons/LayerDown').default,
-    title:"Layer Down"
+    title:"Bring Down"
 
 },
 {
     id:3,
-    name:"Up",
-    icon:require('@/public/assets/icons/LayerUp').default,
-    title:"Layer Up"
+    name:"Top",
+    icon:require('@/public/assets/icons/LayerTop').default,
+    title:"To Top"
 
 },
 {
     id:4,
-    name:"Top",
-    icon:require('@/public/assets/icons/LayerTop').default,
-    title:"Layer Top"
+    name:"Up",
+    icon:require('@/public/assets/icons/LayerUp').default,
+    title:"Bring Up"
 
 },
-
 ]
 
 export const FontSizeData =[
@@ -141,22 +140,22 @@ export const FontSizeData =[
 export const FontFamilyData = [
     {
         id:"1",
-        value:"Virgil",
+        value:"Comic Sans MS",
         icon:require('@/public/assets/icons/PenIcon').default,
-        toolTip:"hand-drawn",
+        toolTip:"Comic Sans MS",
     },
     {
         id:"2",
         value:"Helvetica",
         icon:require('@/public/assets/icons/AIcon').default,
-        toolTip:"normal",
+        toolTip:"Helvetica",
 
     },
     {
         id:"3",
-        value:"Cascadia",
+        value:"Monospace",
         icon:require('@/public/assets/icons/CodeIcon').default,
-        toolTip:"code",
+        toolTip:"Monospace",
 
     }
 ]

@@ -17,7 +17,7 @@ export type SelectedLayer = null | "Up" | 'Down' | "Bottom" | "Top";
 
 
 
-export type FontFamilyType = "Helvetica" | "Virgil" | "Cascadia" |"Comic Sans MS" | "Poppins"
+export type FontFamilyType = "Helvetica" |"Comic Sans MS" | "Monospace"
 
 
 

@@ -122,12 +122,13 @@ type ImageUpload = {
   file: File;
   canvas: React.MutableRefObject<fabric.Canvas>;
   shapeRef: React.MutableRefObject<fabric.Object | null>;
-  // syncShapeInStorage: (shape: fabric.Object) => void;
+  syncShapeInStorage: (shape: fabric.Object) => void;
 }
 export const handleImageUpload = ({
   file,
   canvas, // fabricRef
   shapeRef,
+  syncShapeInStorage
 }: ImageUpload) => {
   const reader = new FileReader();
 
@@ -144,18 +145,40 @@ console.log("reading");
       canvas.current.add(img)
 
       shapeRef.current = img;
-    //   syncShapeInStorage(img);
+      syncShapeInStorage(img);
       canvas.current.requestRenderAll();
     });
   };
-  reader.onerror = (error) => {
-    console.error('Error reading file:', error);
-  };
+  
   reader.readAsDataURL(file);
 };
 
 
+export const updateStackOfElement = ({
+  canvas,
+  selectedShape,
+  type,
+  syncShapeInStorage
+}:any)=>{
 
+
+
+  if (!selectedShape.current || selectedShape.current?.type === "activeSelection") return;
+
+  // bring the selected element to the front
+  if (type === "Top") {
+    canvas.bringToFront(selectedShape.current);
+  } else if (type === "Bottom") {
+    canvas.sendToBack(selectedShape.current);
+  }else if(type=="Up"){
+    canvas.bringForward(selectedShape.current)
+  }else{
+    canvas.sendBackwards(selectedShape.current)
+  }
+canvas.renderAll();
+  // syncShapeInStorage(selectedShape.current);
+
+}
 
 
 

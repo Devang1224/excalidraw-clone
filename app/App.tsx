@@ -3,7 +3,7 @@
 import Navbar from "./components/Navbar";
 import Canvas from "./components/Canvas";
 import {useEffect, useRef, useState } from "react";
-import { handleCanvasObjectModified, handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, handleSelectionCreated, initializeFabric, renderCanvas } from "@/lib/canvas";
+import { handleCanvasObjectModified, handleOnMouseDown, handleOnMouseMove, handleOnMouseUp, handlePathCreated, handleSelectionCreated, initializeFabric, renderCanvas } from "@/lib/canvas";
 import {
   useMutation,
   useMyPresence,
@@ -41,20 +41,24 @@ export default function Home() {
   const syncShapeInStorage = useMutation(({ storage }, object) => {
 
     if (!object) return;
-    const { objectId } = object;
+    
+    const canvasObjects = storage.get("canvasObjects");
+  
 
-    const shapeData = object.toJSON();
+      const { objectId } = object;
+
+     const shapeData = object.toJSON();
     shapeData.objectId = objectId;
 
-    const canvasObjects = storage.get("canvasObjects");
+    canvasObjects.set(objectId, shapeData); 
 
-    canvasObjects.set(objectId, shapeData);
 
   }, []);
 
 
   const deleteShapeFromStorage = useMutation(({ storage }, shapeId) => {
     const canvasObjects = storage.get("canvasObjects");
+    console.log(canvasObjects);
     canvasObjects.delete(shapeId);
   }, []);
 
@@ -64,6 +68,8 @@ export default function Home() {
       canvasRef,
       fabricRef,
     });
+canvas.preserveObjectStacking = true;
+
     // canvas.perPixelTargetFind = true;
     canvas.on("mouse:down", (options) => {
       handleOnMouseDown({
@@ -116,6 +122,17 @@ export default function Home() {
       });
     });
 
+    canvas.on("path:created", (options) => {
+      handlePathCreated({
+        options,
+        syncShapeInStorage,
+      });
+    });
+
+return (()=>{
+  canvas.dispose();
+})
+
 
 console.log("rendering");
   }, [canvasRef]);  // run this only once when the component mounts
@@ -137,6 +154,8 @@ console.log("rendering");
        selectedModeState={selectedModeState}
        fabricRef={fabricRef}
        shapeRef={shapeRef}
+       setEditPannelState={setEditPannelState}
+       syncShapeInStorage={syncShapeInStorage}
        />
       <EditPannel 
        canvas={fabricRef.current as fabric.Canvas} 

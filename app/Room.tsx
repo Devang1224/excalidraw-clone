@@ -10,7 +10,7 @@ export function Room({ children }: { children: ReactNode }) {
     <RoomProvider
      id="my-room"
      initialPresence={{cursor:null,cursorColor:null}}
-    initialStorage={{
+     initialStorage={{
       canvasObjects:new LiveMap()
     }}
     >
