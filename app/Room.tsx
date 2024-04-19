@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 import { RoomProvider } from "../liveblocks.config";
 import { ClientSideSuspense } from "@liveblocks/react";
 import { LiveList, LiveMap } from "@liveblocks/client";
-import Loader from "@/components/ui/Loader";
 
 export function Room({ children }: { children: ReactNode }) {
   return (
@@ -15,7 +14,7 @@ export function Room({ children }: { children: ReactNode }) {
       canvasObjects:new LiveList()
     }}
     >
-      <ClientSideSuspense fallback={<Loader/>}>
+      <ClientSideSuspense fallback={<div>Loading....</div>}>
         {() => children}
       </ClientSideSuspense>
     </RoomProvider>
