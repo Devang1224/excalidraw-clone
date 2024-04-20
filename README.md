@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center"> 
+ 
+# Excalidraw - Clone
+## A simple drawing application just like excalidraw
+</div>
 
-## Getting Started
 
-First, run the development server:
+## **How to install and run locally ?**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## clone the repository
+```
+$ git clone https://github.com/Devang1224/excalidraw-clone.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Start the application
+```
+cd excalidraw-clone
+npm install
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+create a .env file
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+replace your_liveblocks_public_key with your liveblocks public key
+NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY = your_liveblocks_public_key
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<h2>Features-</h2>
+<ul>
+  <li>
+    <h2>Enhanced Collaboration</h2>
+    <ul>
+      <li>Real-time editing: Enable simultaneous work on diagrams with visual cues for co-editing.</li>
+      <li>Co-creation cursors: See other users' cursors move in real-time for a shared workspace feel.</li>
+    </ul>
+  </li>
+  <li>
+    <h2>Advanced Drawing Tools</h2>
+    <ul>
+      <li>Customizable line styles: Define thickness and color for lines.</li>
+      <li>Freehand drawing: Offer a freehand drawing tool for organic shapes and sketches.</li>
+      <li>Add shapes: Allow user to add multiple shapes</li>
+    </ul>
+ 
+   </li>
+   <li>
+    <h2>Powerful Editing Features</h2>
+    <ul>
+      <li>Rearrange elements: Allow users to easily change the order of elements on the canvas.</li>
+      <li>Text style customization: Enable users to modify text font, size, color, and other styles.</li>
+    </ul>
+  </li>
+  <li>
+    <h2>Integration and Automation</h2>
+    <ul>
+      <li>Canvas export to PDF: Allow users to export the entire canvas as a PDF document.</li>
+      <li>Image import: Allow users to import images onto the canvas for enhanced visuals.</li>
+    </ul>
+  </li>
+</ul>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## **Built with -**
 
-## Deploy on Vercel
+- Next JS
+- Fabric JS
+- jsPDF
+- Liveblocks
+- TailwindCSS
+- Typescript
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## **Demo -**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+https://github.com/Devang1224/excalidraw-clone/assets/97470914/703463b6-d683-44cb-81a4-1268c034f773
