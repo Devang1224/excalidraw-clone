@@ -22,22 +22,7 @@ export const createRectangle = (pointer:PointerEvent)=>{
   return rect;
 }
 
-// export const createDiamond = (pointer:PointerEvent)=>{
-//     const rect = new fabric.Rect({
-//         left:pointer.x,
-//         top:pointer.y,
-//         width: 100,
-//         height: 100,
-//         fill:"#97E7E1",
-//         rx:5,
-//         ry:5,
-//         angle:45,
-//         objectId:uuidv4()
-//     }as fabric.IRectOptions & { objectId?: string }
-//   )
 
-//   return rect;
-// }
 
 export const createLine = (pointer:PointerEvent,isDrawing:React.MutableRefObject<boolean>)=>{
   

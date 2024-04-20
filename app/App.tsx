@@ -62,7 +62,7 @@ export default function Home() {
 
       const shapeData = object.toJSON();
       shapeData.objectId = objectId;
-
+      
       const shapes = storage.get("canvasObjects");
 
       const index = shapes.findIndex((item) => item.objectId == objectId);
@@ -119,8 +119,6 @@ export default function Home() {
       fabricRef,
     });
     canvas.preserveObjectStacking = true;
-
-    // canvas.perPixelTargetFind = true;
     canvas.on("mouse:down", (options) => {
       handleOnMouseDown({
         canvas,
@@ -191,7 +189,7 @@ export default function Home() {
   }, [canvasObjects]);
 
   return (
-    <main className="h-screen w-screen">
+    <main className="h-screen">
       <Navbar
         selectedMode={selectedMode}
         setSelectedModeState={setSelectedModeState}

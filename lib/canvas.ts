@@ -49,6 +49,13 @@ const target = canvas.findTarget(options.e,false);
 
 
 
+if(selectedMode.current == "freedraw"){
+  canvas.isDrawingMode = true;
+  canvas.freeDrawingBrush.width = 5;
+  return;
+}
+
+
 if(selectedMode.current == "cursor"){
     if(target && target.type!="activeSelection")
       {
@@ -58,19 +65,13 @@ if(selectedMode.current == "cursor"){
       }else {
          setEditPannelState(false);
       }
-    canvas.isDrawingMode = false;
     canvas.selection = true; // to enable group selection
     canvas.selectionColor = 'rgba(0,0,0,0)'; 
     canvas.selectionBorderColor = 'blue'; 
     return;
 }
 
-
-if(selectedMode.current == "freedraw"){
-  canvas.isDrawingMode = true;
-  canvas.freeDrawingBrush.width = 5;
-  return;
-}
+canvas.isDrawingMode = false;
 
 if(selectedMode.current == "delete"){
    if(target){
@@ -115,7 +116,10 @@ export function handleOnMouseMove({
 ){
 
   if (selectedMode.current == "freedraw") return;
+  canvas.isDrawingMode = false;
+
   if(!isDrawing.current)return;
+
 
   let pointer = canvas.getPointer(options.e);
 
@@ -124,7 +128,6 @@ export function handleOnMouseMove({
     selectedMode.current == "line" &&
     isDrawing.current
   ) {
-    canvas.isDrawingMode = false;
     canvas.selectionBorderColor = "rgba(0,0,0,0";
     canvas.selectionColor = "rgba(0,0,0,0";
     shapeRef.current.set({
